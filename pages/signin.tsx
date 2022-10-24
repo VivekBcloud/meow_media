@@ -1,11 +1,24 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import supabase from "../lib/supabase";
 
 const Signin = () => {
     const { data: session } = useSession();
     const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [user, setUser] = useState({});
+    async function signInWithEmail() {
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+        });
+        setUser(data);
+    }
+    console.log(user);
+
     return (
         <div className="bg-red-500 h-screen grid">
             <div className="w-full lg:w-4/12 px-4 m-auto ">
@@ -18,7 +31,7 @@ const Signin = () => {
                         </div>
                         <div className="btn-wrapper text-center">
                             <button
-                                className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                                className="bg-white active:bg-blueGray-50 text-blueGray-700 font-bold px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center text-xs ease-linear transition-all duration-150"
                                 type="button"
                                 onClick={() => signIn("github")}
                             >
@@ -31,7 +44,7 @@ const Signin = () => {
                                 <span className="ml-2">Github</span>
                             </button>
                             <button
-                                className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
+                                className="bg-white active:bg-blueGray-50 text-blueGray-700  px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                                 type="button"
                             >
                                 <Image
@@ -61,6 +74,8 @@ const Signin = () => {
                                     type="email"
                                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div className="relative w-full mb-3">
@@ -72,6 +87,10 @@ const Signin = () => {
                                 </label>
                                 <input
                                     type="password"
+                                    value={password}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     placeholder="Password"
                                 />
@@ -92,9 +111,10 @@ const Signin = () => {
                                 <button
                                     className="bg-gray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                                     type="button"
+                                    onClick={signInWithEmail}
                                 >
                                     {" "}
-                                    Sign In{" "}
+                                    Sign Up{" "}
                                 </button>
                             </div>
                         </form>
