@@ -167,4 +167,6 @@ const Signin = () => {
     );
 };
 
+Signin.authPage = true;
+
 export default Signin;

@@ -9,15 +9,7 @@ const Home: NextPage = () => {
     const user = useUser();
     const [data, setData] = useState();
 
-    return (
-        <>
-            <button onClick={() => supabaseClient.auth.signOut()}>
-                Sign out
-            </button>
-            <p>user:</p>
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-        </>
-    );
+    return <div>home</div>;
 };
 
 export default Home;
