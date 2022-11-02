@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-
+import Image from "next/image";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 export default function ImageUpload({
     uid,
     url,
@@ -15,25 +16,6 @@ export default function ImageUpload({
     const supabase = useSupabaseClient();
     const [avatarUrl, setAvatarUrl] = useState("");
     const [uploading, setUploading] = useState(false);
-
-    useEffect(() => {
-        if (url) downloadImage(url);
-    }, [url]);
-
-    async function downloadImage(path: string) {
-        try {
-            const { data, error } = await supabase.storage
-                .from("post-image")
-                .download(path);
-            if (error) {
-                throw error;
-            }
-            const url = URL.createObjectURL(data);
-            setAvatarUrl(url);
-        } catch (error) {
-            console.log("Error downloading image: ", error);
-        }
-    }
 
     const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (
         event
@@ -68,23 +50,25 @@ export default function ImageUpload({
     };
 
     return (
-        <div>
+        <div className="w-full rounded-xl p-2 px-3 flex items-center justify-center gap-1  bg-sc">
             {avatarUrl ? (
-                <img
+                <Image
                     src={avatarUrl}
                     alt="Avatar"
                     className="avatar image"
-                    style={{ height: size, width: size }}
+                    height={size}
+                    width={size}
                 />
-            ) : (
-                <div
-                    className="avatar no-image"
-                    style={{ height: size, width: size }}
-                />
-            )}
-            <div style={{ width: size }}>
-                <label className="button primary block" htmlFor="single">
-                    {uploading ? "Uploading ..." : "Upload"}
+            ) : null}
+            <div>
+                <label
+                    className="w-full rounded-xl p-2 px-3 flex items-center justify-center gap-1  bg-s "
+                    htmlFor="single"
+                >
+                    <PhotoIcon className="h-5 w-5 text-emerald-400" />
+                    <div className="text-white text-sm">
+                        {uploading ? "Uploading ..." : "Photo"}
+                    </div>
                 </label>
                 <input
                     style={{
