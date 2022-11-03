@@ -3,8 +3,10 @@ import React, { useState } from "react";
 
 import { Provider } from "@supabase/supabase-js";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 const Signin = () => {
+    const router = useRouter();
     const supabase = useSupabaseClient();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -16,6 +18,7 @@ const Signin = () => {
             password,
         });
         setUser(data);
+        router.push("/");
     }
 
     async function signInWithEmail() {
@@ -24,6 +27,7 @@ const Signin = () => {
             password,
         });
         setUser(data);
+        router.push("/");
     }
 
     async function signInWithOAuth(providerName: Provider) {
@@ -31,6 +35,7 @@ const Signin = () => {
             provider: providerName,
         });
         setUser(data);
+        router.push("/");
     }
 
     console.log(user);

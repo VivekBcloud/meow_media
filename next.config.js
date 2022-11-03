@@ -3,14 +3,21 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
-        remotePatterns: [
-            {
-                protocol: "https",
-                hostname: "cshhlpsxxvoyacgyjyqd.supabase.co",
-                // port: "",
-                pathname: "/**",
-            },
+        domains: [
+            "cshhlpsxxvoyacgyjyqd.supabase.co",
+            "avatars.githubusercontent.com",
         ],
+        // remotePatterns: [
+        //     {
+        //         protocol: "https",
+        //         hostname: [
+        //             "cshhlpsxxvoyacgyjyqd.supabase.co",
+        //             "avatars.githubusercontent.com",
+        //         ],
+        //         // port: "",
+        //         pathname: "/**",
+        //     },
+        // ],
     },
 };
 

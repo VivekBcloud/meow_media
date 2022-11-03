@@ -4,10 +4,10 @@ import type { InferGetServerSidePropsType, NextPage } from "next";
 
 import { useState } from "react";
 import CreatePost from "../components/createPost";
+import Post from "../components/post";
+import { postType } from "../types/all";
 
-const Home: NextPage<
-    InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ posts }) => {
+const Home = ({ posts }: { posts: postType[] }) => {
     const supabaseClient = useSupabaseClient();
     const user = useUser();
     const [data, setData] = useState();
@@ -19,6 +19,9 @@ const Home: NextPage<
                 <div className="col-span-1 bg-pc rounded-lg">profile</div>
                 <div className="  col-span-2  rounded-lg">
                     <CreatePost />
+                    {Array.isArray(posts) &&
+                        posts.length > 0 &&
+                        posts.map((post) => <Post post={post} key={post.id} />)}
                 </div>
                 <div className=" col-span-1 bg-pc rounded-lg">activity</div>
             </div>
@@ -31,7 +34,9 @@ export const getServerSideProps = withPageAuth({
     redirectTo: "/signin",
     async getServerSideProps(ctx, supabase) {
         // Access the user object
-        const { data, error } = await supabase.from("Post").select("*");
+        const { data, error } = await supabase
+            .from("Post")
+            .select("*, user_email (image,name)");
         console.log({ data });
 
         if (error) {

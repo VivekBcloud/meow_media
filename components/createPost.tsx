@@ -24,6 +24,7 @@ const CreatePost = () => {
                 content,
                 imageUrl,
                 userId: user?.id,
+                user_email: user?.email,
             });
             if (res) console.log(res);
         } catch (e) {
@@ -31,16 +32,17 @@ const CreatePost = () => {
         }
     };
     return (
-        <div className="grid grid-cols-8 bg-pc p-4 rounded-lg items-center">
-            <div className="col-span-1">
+        <div className="flex  bg-pc p-3 rounded-lg gap-2 items-center ">
+            <div className="col-span-1 flex items-center">
                 <Image
-                    src="/profile_2.svg"
+                    src={user?.user_metadata?.avatar_url}
                     alt="profile"
-                    height={50}
-                    width={50}
+                    height={40}
+                    width={40}
+                    className="rounded-full"
                 />
             </div>
-            <div className="col-span-7">
+            <div className="flex-grow">
                 <button
                     type="button"
                     className="w-full bg-sc py-3 px-3 rounded-lg text-white text-sm placeholder:text-white/30"
