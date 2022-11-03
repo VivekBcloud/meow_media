@@ -11,7 +11,7 @@ const Home: NextPage<
     const supabaseClient = useSupabaseClient();
     const user = useUser();
     const [data, setData] = useState();
-    console.log(posts);
+    console.log({ posts });
 
     return (
         <div className="h-full w-full">
@@ -31,7 +31,12 @@ export const getServerSideProps = withPageAuth({
     redirectTo: "/signin",
     async getServerSideProps(ctx, supabase) {
         // Access the user object
-        const { data, error } = await supabase.from("posts").select("*");
+        const { data, error } = await supabase.from("Post").select("*");
+        console.log({ data });
+
+        if (error) {
+            console.log(error);
+        }
         return { props: { posts: data } };
     },
 });

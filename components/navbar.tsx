@@ -49,7 +49,10 @@ const Navbar = () => {
                         <div className="font-medium text-sm">
                             {user?.user_metadata.name}
                         </div>
-                        <ChevronDownIcon className="h-3 w-3 text-white mr-2" />
+                        <ChevronDownIcon
+                            className="h-3 w-3 text-white mr-2"
+                            onClick={() => supabaseClient.auth.signOut()}
+                        />
                     </div>
                 </div>
 
