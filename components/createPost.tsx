@@ -20,12 +20,16 @@ const CreatePost = () => {
         console.log("post mer");
 
         try {
-            const res = await fetcher("/create_post", {
-                content,
-                imageUrl,
-                userId: user?.id,
-                user_email: user?.email,
-            });
+            const res = await fetcher(
+                "/post",
+                {
+                    content,
+                    imageUrl,
+                    userId: user?.id,
+                    user_email: user?.email,
+                },
+                "POST"
+            );
             if (res) console.log(res);
         } catch (e) {
             console.log(e);

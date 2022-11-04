@@ -1,14 +1,13 @@
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { withPageAuth } from "@supabase/auth-helpers-nextjs";
-import type { InferGetServerSidePropsType, NextPage } from "next";
 
 import { useState } from "react";
 import CreatePost from "../components/createPost";
 import Post from "../components/post";
 import { postType } from "../types/all";
+import ProfileCard from "../components/profileCard";
 
 const Home = ({ posts }: { posts: postType[] }) => {
-    const supabaseClient = useSupabaseClient();
     const user = useUser();
     const [data, setData] = useState();
     console.log({ posts });
@@ -16,7 +15,9 @@ const Home = ({ posts }: { posts: postType[] }) => {
     return (
         <div className="h-full w-full">
             <div className="grid grid-cols-4 gap-5 h-full mx-auto max-w-screen-xl p-2">
-                <div className="col-span-1 bg-pc rounded-lg">profile</div>
+                <div className="col-span-1 bg-pc rounded-lg">
+                    <ProfileCard />
+                </div>
                 <div className="  col-span-2  rounded-lg">
                     <CreatePost />
                     {Array.isArray(posts) &&
