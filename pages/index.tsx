@@ -2,10 +2,11 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 
 import { useState } from "react";
-import CreatePost from "../components/createPost";
+import CreatePost from "../components/post/createPost";
 import Post from "../components/post";
 import { postType } from "../types/all";
 import ProfileCard from "../components/profileCard";
+import fetcher from "../lib/fetcher";
 
 const Home = ({ posts }: { posts: postType[] }) => {
     const user = useUser();
@@ -37,12 +38,12 @@ export const getServerSideProps = withPageAuth({
         // Access the user object
         const { data, error } = await supabase
             .from("Post")
-            .select("*, user_email (image,name)");
+            .select("*, user_email (image,name)")
+            .order("created_at", { ascending: false });
         console.log({ data });
+        // const res = await fetcher("/post", {}, "GET");
+        // console.log({ res });
 
-        if (error) {
-            console.log(error);
-        }
         return { props: { posts: data } };
     },
 });

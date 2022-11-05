@@ -6,7 +6,7 @@ const ProfileCard = () => {
     return (
         <div className="w-full p-2">
             <div className=" bg-sc rounded-lg p-4 text-white whitespace-pre-line overflow-hidden ">
-                <div className="aspect-w-7 aspect-h-4 w-full overflow-hidden rounded-lg ">
+                <div className="aspect-w-7 aspect-h-4 w-full overflow-hidden rounded-lg  ">
                     <Image
                         src="/profilebg.svg"
                         alt="pic"

@@ -22,7 +22,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
         const { data, error } = await supabaseServerClient
             .from("Post")
-            .select("*, user_email (image,name)");
+            .select("*, user_email (image,name)")
+            .order("created_at", { ascending: false });
+
         // console.log({ data });
         if (error) {
             throw error;
@@ -31,11 +33,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "POST") {
-        const { userId, content, imageUrl, user_email } = req.body;
+        const { user_id, content, img_url, user_email } = req.body;
         let { error } = await supabaseServerClient.from("Post").insert({
-            user_id: userId,
+            user_id,
             content,
-            img_url: imageUrl,
+            img_url,
             user_email,
         });
         if (error) throw error;
@@ -43,13 +45,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "PUT") {
-        const { id, userId, content, imageUrl, user_email } = req.body;
+        const { id, user_id, content, img_url, user_email } = req.body;
         let { error } = await supabaseServerClient
             .from("Post")
             .update({
-                user_id: userId,
+                user_id,
                 content,
-                img_url: imageUrl,
+                img_url,
                 user_email,
             })
             .eq("id", id);
@@ -58,13 +60,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "DELETE") {
-        const { id } = req.body;
+        const { id, user_id } = req.body;
         let { error } = await supabaseServerClient
             .from("Post")
             .delete()
-            .eq("id", id);
+            .eq("id", id)
+            .eq("user_id", user_id);
+
         if (error) throw error;
-        res.status(200).json({ message: "successfully updated post" });
+        res.status(200).json({ message: "successfully deleted post" });
     }
 };
 

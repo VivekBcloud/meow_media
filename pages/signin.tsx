@@ -33,9 +33,11 @@ const Signin = () => {
     async function signInWithOAuth(providerName: Provider) {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: providerName,
+            // options: {
+            //     redirectTo: "https://example.com/welcome",
+            // },
         });
         setUser(data);
-        router.push("/");
     }
 
     console.log(user);

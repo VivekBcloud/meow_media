@@ -25,7 +25,7 @@ const Modal: FC<IProps> = ({ open, setOpen, children }) => {
 
         //at last
 
-        setOpen(false);
+        // setOpen(false);
     };
 
     return (

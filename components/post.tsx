@@ -2,8 +2,9 @@ import Image from "next/image";
 import React from "react";
 import { relativeTimeFromDates } from "../lib/helper";
 import { postType } from "../types/all";
-import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleOvalLeftIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
+import fetcher from "../lib/fetcher";
 
 const Post = ({ post }: { post: postType }) => {
     console.log(post);
@@ -35,6 +36,24 @@ const Post = ({ post }: { post: postType }) => {
                 <div className="flex gap-1 items-center py-2">
                     <SolidHeartIcon className="w-6 h-6 text-red-500" />
                     <ChatBubbleOvalLeftIcon className="w-6 h-6 " />
+                    <TrashIcon
+                        className="w-6 h-6 "
+                        onClick={async () => {
+                            try {
+                                const res = await fetcher(
+                                    "/post",
+                                    {
+                                        id: post.id,
+                                        userId: post.user_id,
+                                    },
+                                    "DELETE"
+                                );
+                                if (res) console.log(res);
+                            } catch (e) {
+                                console.log(e);
+                            }
+                        }}
+                    />
                 </div>
             </div>
         </div>

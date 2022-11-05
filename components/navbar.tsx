@@ -7,10 +7,11 @@ import {
     ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { useRouter } from "next/router";
 const Navbar = () => {
     const user = useUser();
     const supabaseClient = useSupabaseClient();
-
+    const router = useRouter();
     return (
         <div className="flex absolute justify-center top-0 left-0 h-16 w-full bg-bg p-2">
             <nav className="max-w-screen-xl w-full grid grid-cols-4 gap-5 p-2">
@@ -58,7 +59,10 @@ const Navbar = () => {
 
                 <button
                     className="hidden"
-                    onClick={() => supabaseClient.auth.signOut()}
+                    onClick={() => {
+                        supabaseClient.auth.signOut();
+                        router.push("/signin");
+                    }}
                 >
                     Sign out
                 </button>
