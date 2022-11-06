@@ -4,9 +4,9 @@ import React from "react";
 const ProfileCard = () => {
     const user = useUser();
     return (
-        <div className="w-full p-2">
-            <div className=" bg-sc rounded-lg p-4 text-white whitespace-pre-line overflow-hidden ">
-                <div className="aspect-w-7 aspect-h-4 w-full overflow-hidden rounded-lg  ">
+        <div className="w-full p-2 ">
+            <div className=" relative  w-full bg-sc rounded-lg p-4 text-white whitespace-pre-line overflow-hidden ">
+                <div className="absolute top-0 left-0 aspect-w-7 aspect-h-4 w-full overflow-hidden rounded-lg  ">
                     <Image
                         src="/profilebg.svg"
                         alt="pic"
@@ -15,30 +15,37 @@ const ProfileCard = () => {
                         objectPosition={"0px 0px"}
                     />
                 </div>
-                <div className=" grid grid-cols-4  ">
-                    <div className="flex flex-col items-end p-2">
-                        <div className="text-sm">{"1000"}</div>
-                        <div className="text-sm">Follower</div>
+                <div className=" grid grid-cols-7 mt-[40%] items-end ">
+                    <div className="flex flex-col items-end p-2 col-span-2">
+                        <div className="text-sm">{"0"}</div>
+                        <div className="text-xs">Follower</div>
                     </div>
-                    <div className="relative bg-pc col-span-2 top-[-50%] border-[6px] border-sc rounded-lg ">
+                    <div className=" relative bg-pc col-span-3 border-[6px] border-sc rounded-lg ">
                         <Image
-                            src={user?.user_metadata.avatar_url}
+                            src={
+                                user?.user_metadata.avatar_url ||
+                                "/profile_2.svg"
+                            }
                             alt="pic"
-                            height="150"
-                            width="150"
+                            height="140"
+                            width="140"
                             layout="responsive"
                             className="  rounded-lg"
                         />
                     </div>
-                    <div className="flex flex-col items-start p-2">
-                        <div className="text-sm">{"1000"}</div>
-                        <div className="text-xm">Following</div>
+                    <div className="flex flex-col items-start p-2 col-span-2">
+                        <div className="text-sm">{"0"}</div>
+                        <div className="text-xs">Following</div>
                     </div>
                 </div>
-                <div className="w-full bg-pc p-2 rounded-lg overflow-clip">
-                    about
-                    {JSON.stringify(user?.user_metadata, null, 2)}
+                <div className="w-full  p-2 rounded-lg overflow-clip flex flex-col items-center">
+                    {/* {JSON.stringify(user?.user_metadata, null, 2)} */}
+                    <div>{user?.user_metadata.full_name}</div>
+                    <div>@{user?.user_metadata.preferred_username}</div>
                 </div>
+                <button className="w-full mt-2 p-2 bg-pc rounded-lg cursor-pointer hover:bg-impact hover:font-bold transition-all ease-out duration-100 ">
+                    My profile
+                </button>
             </div>
         </div>
     );
