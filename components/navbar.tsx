@@ -3,15 +3,23 @@ import {
     HomeIcon,
     ChatBubbleOvalLeftEllipsisIcon,
     BellIcon,
-    HeartIcon,
+    FolderOpenIcon,
     ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { classNameJoiner } from "../lib/helper";
+import { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+
 const Navbar = () => {
     const user = useUser();
     const supabaseClient = useSupabaseClient();
     const router = useRouter();
+    const currTab = router.pathname;
+    console.log({ currTab });
+
     return (
         <div className="flex absolute justify-center top-0 left-0 h-16 w-full bg-bg p-2">
             <nav className="max-w-screen-xl w-full grid grid-cols-4 gap-5 p-2">
@@ -27,16 +35,46 @@ const Navbar = () => {
                 </div>
                 <div className="center col-span-2  flex justify-center items-center gap-10">
                     <div>
-                        <HomeIcon className="h-6 w-6 text-[#fffd01]" />
+                        <Link href="/">
+                            <HomeIcon
+                                className={classNameJoiner(
+                                    "h-6 w-6 text-white",
+                                    currTab === "/" ? "text-impact" : ""
+                                )}
+                            />
+                        </Link>
                     </div>
                     <div>
-                        <ChatBubbleOvalLeftEllipsisIcon className="h-6 w-6 text-white" />
+                        <Link href="/chat">
+                            <ChatBubbleOvalLeftEllipsisIcon
+                                className={classNameJoiner(
+                                    "h-6 w-6 text-white",
+                                    currTab === "/chat" ? "text-impact" : ""
+                                )}
+                            />
+                        </Link>
                     </div>
                     <div>
-                        <BellIcon className="h-6 w-6 text-white" />
+                        <Link href="/notification">
+                            <BellIcon
+                                className={classNameJoiner(
+                                    "h-6 w-6 text-white",
+                                    currTab === "/notification"
+                                        ? "text-impact"
+                                        : ""
+                                )}
+                            />
+                        </Link>
                     </div>
                     <div>
-                        <HeartIcon className="h-6 w-6 text-white" />
+                        <Link href="/posts">
+                            <FolderOpenIcon
+                                className={classNameJoiner(
+                                    "h-6 w-6 text-white",
+                                    currTab === "/posts" ? "text-impact" : ""
+                                )}
+                            />
+                        </Link>
                     </div>
                 </div>
                 <div className="right col-span-1 flex justify-end ">
@@ -50,10 +88,48 @@ const Navbar = () => {
                         <div className="font-medium text-sm">
                             {user?.user_metadata.name}
                         </div>
-                        <ChevronDownIcon
-                            className="h-3 w-3 text-white mr-2"
-                            onClick={() => supabaseClient.auth.signOut()}
-                        />
+                        <Menu
+                            as="div"
+                            className="relative inline-block text-left"
+                        >
+                            <div>
+                                <Menu.Button className="inline-flex w-full justify-center rounded-md  bg-transparent outline-none">
+                                    <ChevronDownIcon className="h-3 w-3 text-white mr-2" />
+                                </Menu.Button>
+                            </div>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="absolute right-0 z-10 mt-2 rounded-lg  whitespace-nowrap origin-top-right overflow-hidden bg-sc shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="py-1">
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <button
+                                                    className={classNameJoiner(
+                                                        active
+                                                            ? " text-impact"
+                                                            : "text-gray-200",
+                                                        "block px-4 py-2 text-sm w-full"
+                                                    )}
+                                                    onClick={() => {
+                                                        supabaseClient.auth.signOut();
+                                                    }}
+                                                >
+                                                    Sign out
+                                                </button>
+                                            )}
+                                        </Menu.Item>
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
                     </div>
                 </div>
 
