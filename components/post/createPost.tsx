@@ -14,7 +14,7 @@ const CreatePost = () => {
         <div className="flex  bg-pc p-3 rounded-lg gap-2 items-center ">
             <div className="col-span-1 flex items-center">
                 <Image
-                    src={user?.user_metadata?.avatar_url}
+                    src={user?.user_metadata?.avatar_url || "/profile_2.svg"}
                     alt="profile"
                     height={40}
                     width={40}

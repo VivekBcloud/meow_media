@@ -10,6 +10,7 @@ module.exports = {
                 bg: "var(--bg-color)",
                 pc: "var(--primary-color)",
                 sc: "var(--secondary-color)",
+                impact: "var(--impact-color)",
             },
         },
     },

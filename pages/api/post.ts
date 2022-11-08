@@ -45,17 +45,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "PUT") {
-        const { id, user_id, content, img_url, user_email } = req.body;
-        let { error } = await supabaseServerClient
+        const { id, content, img_url } = req.body;
+        let { data, error } = await supabaseServerClient
             .from("Post")
             .update({
-                user_id,
                 content,
                 img_url,
-                user_email,
             })
-            .eq("id", id);
-        if (error) throw error;
+            .eq("id", id)
+            .select();
+
+        console.log({ data });
+
+        if (error) {
+            throw error;
+        }
+
         res.status(200).json({ message: "successfully updated post" });
     }
 

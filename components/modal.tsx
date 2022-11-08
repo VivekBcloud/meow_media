@@ -1,13 +1,4 @@
-import {
-    Dispatch,
-    FC,
-    Fragment,
-    ReactNode,
-    SetStateAction,
-    SyntheticEvent,
-    useRef,
-    useState,
-} from "react";
+import { FC, Fragment, ReactNode, SyntheticEvent, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
@@ -66,7 +57,7 @@ const Modal: FC<IProps> = ({ open, setOpen, children }) => {
                                             <div className="flex">
                                                 <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-bg sm:mx-0 sm:h-10 sm:w-10">
                                                     <PlusIcon
-                                                        className="h-6 w-6 text-yellow-500"
+                                                        className="h-6 w-6 text-[#ff7e35]"
                                                         aria-hidden="true"
                                                     />
                                                 </div>

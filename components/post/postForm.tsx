@@ -38,7 +38,7 @@ const PostForm: FC<PostFormI> = ({
                 {
                     content,
                     img_url: imageUrl,
-                    userId: user?.id,
+                    user_id: user?.id,
                     user_email: user?.email,
                     id,
                 },
