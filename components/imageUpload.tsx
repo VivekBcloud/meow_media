@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import { classNameJoiner } from "../lib/helper";
 export default function ImageUpload({

@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
         const { data, error } = await supabaseServerClient
             .from("Post")
-            .select("*, user_email (image,name)")
+            .select("*, user_id (avatar_url ,username)")
             .order("created_at", { ascending: false });
 
         // console.log({ data });
@@ -33,12 +33,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     if (req.method === "POST") {
-        const { user_id, content, img_url, user_email } = req.body;
+        const { user_id, content, img_url } = req.body;
         let { error } = await supabaseServerClient.from("Post").insert({
             user_id,
             content,
             img_url,
-            user_email,
         });
         if (error) throw error;
         res.status(200).json({ message: "successfully added new post" });

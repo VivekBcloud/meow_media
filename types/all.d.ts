@@ -1,10 +1,9 @@
 export type postType = {
     id: string;
-    user_id: string;
     content: string;
     img_url: string;
     created_at: string;
-    user_email: { image: string; name: string };
+    user_id: { avatar_url: string; username: string };
 };
 
 export type likeType = {
@@ -13,3 +12,10 @@ export type likeType = {
     user_id: string;
     post_id: string;
 };
+
+export interface Profile {
+    id: string;
+    username: string;
+    full_name: string;
+    avatar_url: string;
+}

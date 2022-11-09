@@ -1,8 +1,31 @@
-import { useUser } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import Image from "next/image";
-import React from "react";
-const ProfileCard = () => {
-    const user = useUser();
+import Link from "next/link";
+import React, { FC, useEffect, useState } from "react";
+import { Profile } from "../types/all";
+
+const ProfileCard: FC<Profile> = ({ full_name, username, avatar_url }) => {
+    const supabase = useSupabaseClient();
+
+    const [profilePic, setProfilePic] = useState("");
+    useEffect(() => {
+        if (avatar_url) downloadImage(avatar_url);
+    }, [avatar_url]);
+
+    async function downloadImage(path: string) {
+        try {
+            const { data, error } = await supabase.storage
+                .from("avatars")
+                .download(path);
+            if (error) {
+                throw error;
+            }
+            const url = URL.createObjectURL(data);
+            setProfilePic(url);
+        } catch (error) {
+            console.log("Error downloading image: ", error);
+        }
+    }
     return (
         <div className="w-full p-2 ">
             <div className=" relative  w-full bg-sc rounded-lg p-4 text-white whitespace-pre-line overflow-hidden ">
@@ -22,10 +45,7 @@ const ProfileCard = () => {
                     </div>
                     <div className=" relative bg-pc col-span-3 border-[6px] border-sc rounded-lg ">
                         <Image
-                            src={
-                                user?.user_metadata.avatar_url ||
-                                "/profile_2.svg"
-                            }
+                            src={profilePic || "/profile_2.svg"}
                             alt="pic"
                             height="140"
                             width="140"
@@ -40,12 +60,14 @@ const ProfileCard = () => {
                 </div>
                 <div className="w-full  p-2 rounded-lg overflow-clip flex flex-col items-center">
                     {/* {JSON.stringify(user?.user_metadata, null, 2)} */}
-                    <div>{user?.user_metadata.full_name}</div>
-                    <div>@{user?.user_metadata.preferred_username}</div>
+                    <div>{full_name || "full name"}</div>
+                    <div>@{username || "username"}</div>
                 </div>
-                <button className="w-full mt-2 p-2 bg-pc rounded-lg cursor-pointer hover:bg-impact hover:font-bold transition-all ease-out duration-100 ">
-                    My profile
-                </button>
+                <Link href={"/profile"}>
+                    <button className="w-full mt-2 p-2 bg-pc rounded-lg cursor-pointer hover:bg-impact hover:font-bold transition-all ease-out duration-100 ">
+                        My profile
+                    </button>
+                </Link>
             </div>
         </div>
     );
