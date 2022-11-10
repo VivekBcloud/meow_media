@@ -20,11 +20,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
         try {
             const { id } = req.query;
-            const data = await supabaseServerClient
+            console.log("called me with id", id);
+
+            const { data, error } = await supabaseServerClient
                 .from("profiles")
                 .select("*")
                 .eq("id", id)
                 .single();
+            if (error) throw error;
+
             res.status(200).json(data);
         } catch (error) {
             res.status(502).json({ error });

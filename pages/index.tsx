@@ -13,7 +13,9 @@ const Home = ({ user_id }: { user_id: string }) => {
         fetchPosts()
     );
     const { data: likes } = useQuery(["likes"], () => fetchLikes());
-    const { data: profile } = useQuery(["profile"], () => fetchUser(user_id));
+    const { data: profile } = useQuery(["profile", user_id], () =>
+        fetchUser(user_id)
+    );
     return (
         <div className="h-full w-full ">
             <div className="grid grid-cols-4 gap-5 h-full mx-auto max-w-screen-xl p-2">
@@ -32,11 +34,14 @@ const Home = ({ user_id }: { user_id: string }) => {
                                 <Post
                                     post={post}
                                     key={post.id}
-                                    isLiked={likes!.some(
-                                        (like) =>
-                                            like.post_id === post.id &&
-                                            like.user_id === post.user_id.id
-                                    )}
+                                    isLiked={
+                                        Array.isArray(likes) &&
+                                        likes.some(
+                                            (like) =>
+                                                like.post_id === post.id &&
+                                                like.user_id === post.user_id.id
+                                        )
+                                    }
                                 />
                             </>
                         ))
@@ -69,10 +74,11 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     // console.log({ user: session.user });
 
     const { id } = session.user;
+
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery(["posts"], () => fetchPosts());
     await queryClient.prefetchQuery(["likes"], () => fetchLikes());
-    await queryClient.prefetchQuery(["profile"], () => fetchUser(id));
+    await queryClient.prefetchQuery(["profile", id], () => fetchUser(id));
 
     return {
         props: {

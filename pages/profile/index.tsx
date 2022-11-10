@@ -78,8 +78,8 @@ const Profile = () => {
     }
 
     return (
-        <div className="h-full w-full bg-emerald-400">
-            <div className="flex flex-col gap-5 h-full mx-auto max-w-screen-xl p-2 text-orange-500">
+        <div className="h-full w-full ">
+            <div className="flex flex-col gap-5 h-full mx-auto max-w-screen-xl p-2 text-orange-500 text-lg">
                 <div className="aspect-w-1 w-40 h-40 overflow-hidden rounded-lg bg-pc ">
                     {avatar_url ? (
                         <Image
@@ -119,27 +119,30 @@ const Profile = () => {
                     />
                 </div>
 
-                <div>
+                <div className="text-lg grid grid-cols-2 items-center  justify-center ">
                     <label htmlFor="email">Email</label>
                     <input
+                        className="p-2 border border-orange-500 bg-bg rounded-lg text-white "
                         id="email"
                         type="text"
                         value={session?.user.email}
                         disabled
                     />
                 </div>
-                <div>
+                <div className="grid grid-cols-2">
                     <label htmlFor="username">Full name</label>
                     <input
+                        className="p-2 border border-orange-500 bg-bg rounded-lg text-white "
                         id="fullname"
                         type="text"
                         value={fullname || ""}
                         onChange={(e) => setFullname(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className="grid grid-cols-2">
                     <label htmlFor="username">Username</label>
                     <input
+                        className="p-2 border border-orange-500 bg-bg rounded-lg text-white "
                         id="username"
                         type="text"
                         value={username || ""}
@@ -149,7 +152,7 @@ const Profile = () => {
 
                 <div>
                     <button
-                        className="button primary block"
+                        className="button primary block float-right bg-impact p-2 px-3 text-white rounded-lg"
                         onClick={() =>
                             updateProfile({ username, fullname, avatar_url })
                         }
