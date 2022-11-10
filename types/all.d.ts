@@ -3,7 +3,7 @@ export type postType = {
     content: string;
     img_url: string;
     created_at: string;
-    user_id: { avatar_url: string; username: string };
+    user_id: { avatar_url: string; username: string; id: string };
 };
 
 export type likeType = {

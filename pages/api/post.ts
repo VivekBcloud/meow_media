@@ -22,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
         const { data, error } = await supabaseServerClient
             .from("Post")
-            .select("*, user_id (avatar_url ,username)")
+            .select("*, user_id (avatar_url ,username, id)")
             .order("created_at", { ascending: false });
 
         // console.log({ data });

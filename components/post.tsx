@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { classNameJoiner, relativeTimeFromDates } from "../lib/helper";
 import { postType } from "../types/all";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
@@ -8,17 +8,12 @@ import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import fetcher from "../lib/fetcher";
 import Modal from "./modal";
 import PostForm from "./post/postForm";
-import {
-    useSession,
-    useSupabaseClient,
-    useUser,
-} from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
 const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
     // console.log(post);
     const [open, setOpen] = useState(false);
     const [alreadyLiked, setAlreadyLiked] = useState(isLiked);
-    const [avatarUrl, setAvatarUrl] = useState("");
     const user = useUser();
     const supabase = useSupabaseClient();
     // const session = useSession();
@@ -42,30 +37,17 @@ const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
             console.log(e);
         }
     };
-    useEffect(() => {
-        async function downloadImage(path: string) {
-            try {
-                const { data, error } = await supabase.storage
-                    .from("avatars")
-                    .download(path);
-                if (error) {
-                    throw error;
-                }
-                const url = URL.createObjectURL(data);
-                setAvatarUrl(url);
-            } catch (error) {
-                console.log("Error downloading image: ", error);
-            }
-        }
-        if (post.img_url) downloadImage(post.img_url);
-    }, [post.img_url, supabase]);
 
     return (
         <>
             <div className=" bg-pc p-3 rounded-lg items-center mt-2 text-gray-300">
                 <div className="flex gap-3 items-center py-2">
                     <div className="aspect-w-1 rounded-full overflow-hidden  bg-pc w-10 h-10">
-                        <Image src={avatarUrl} alt="pic" layout="fill" />
+                        <Image
+                            src={post.user_id.avatar_url}
+                            alt="pic"
+                            layout="fill"
+                        />
                     </div>
                     <div className=" font-semibold  items-center gap-1 text">
                         <div>{post.user_id.username}</div>

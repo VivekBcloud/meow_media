@@ -100,6 +100,7 @@ const PostForm: FC<PostFormI> = ({
                             console.log("Error downloading image: ", error);
                         }
                     }}
+                    uid={""}
                 />
                 <button
                     onClick={() => handlePost()}

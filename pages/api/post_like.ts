@@ -18,11 +18,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 "The user does not have an active session or is not authenticated",
         });
     if (req.method === "GET") {
-        const { user_id } = req.body;
         let { data, error } = await supabaseServerClient
             .from("Like")
-            .select("*")
-            .eq("user_id", user_id);
+            .select("*");
 
         if (error) throw error;
         res.status(200).json(data);

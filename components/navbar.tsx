@@ -133,15 +133,14 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <button
+                {/* <button
                     className="hidden"
                     onClick={() => {
                         supabaseClient.auth.signOut();
-                        router.push("/signin");
                     }}
                 >
                     Sign out
-                </button>
+                </button> */}
             </nav>
         </div>
     );

@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import Image from "next/image";
-import { useUser } from "@supabase/auth-helpers-react";
 
 import Modal from "../modal";
 import PostForm from "./postForm";
 
-const CreatePost = () => {
-    const user = useUser();
+interface PropType {
+    avatar_url: string;
+}
 
+const CreatePost: FC<PropType> = ({ avatar_url }) => {
     const [open, setOpen] = useState(false);
 
     return (
         <div className="flex  bg-pc p-3 rounded-lg gap-2 items-center ">
             <div className="col-span-1 flex items-center">
                 <Image
-                    src={user?.user_metadata?.avatar_url || "/profile_2.svg"}
+                    src={avatar_url || "/profile_2.svg"}
                     alt="profile"
                     height={40}
                     width={40}
+                    objectFit="cover"
                     className="rounded-full"
                 />
             </div>

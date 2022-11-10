@@ -5,27 +5,6 @@ import React, { FC, useEffect, useState } from "react";
 import { Profile } from "../types/all";
 
 const ProfileCard: FC<Profile> = ({ full_name, username, avatar_url }) => {
-    const supabase = useSupabaseClient();
-
-    const [profilePic, setProfilePic] = useState("");
-    useEffect(() => {
-        if (avatar_url) downloadImage(avatar_url);
-    }, [avatar_url]);
-
-    async function downloadImage(path: string) {
-        try {
-            const { data, error } = await supabase.storage
-                .from("avatars")
-                .download(path);
-            if (error) {
-                throw error;
-            }
-            const url = URL.createObjectURL(data);
-            setProfilePic(url);
-        } catch (error) {
-            console.log("Error downloading image: ", error);
-        }
-    }
     return (
         <div className="w-full p-2 ">
             <div className=" relative  w-full bg-sc rounded-lg p-4 text-white whitespace-pre-line overflow-hidden ">
@@ -45,12 +24,13 @@ const ProfileCard: FC<Profile> = ({ full_name, username, avatar_url }) => {
                     </div>
                     <div className=" relative bg-pc col-span-3 border-[6px] border-sc rounded-lg ">
                         <Image
-                            src={profilePic || "/profile_2.svg"}
+                            src={avatar_url || "/profile_2.svg"}
                             alt="pic"
                             height="140"
                             width="140"
                             layout="responsive"
-                            className="  rounded-lg"
+                            objectFit="cover"
+                            className="rounded-lg"
                         />
                     </div>
                     <div className="flex flex-col items-start p-2 col-span-2">

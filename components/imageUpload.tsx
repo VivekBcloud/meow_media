@@ -4,8 +4,10 @@ import { PhotoIcon } from "@heroicons/react/24/solid";
 import { classNameJoiner } from "../lib/helper";
 export default function ImageUpload({
     onUpload,
+    uid = "",
 }: {
     onUpload: (url: string) => void;
+    uid: string;
 }) {
     const supabase = useSupabaseClient();
     const [uploading, setUploading] = useState(false);
@@ -22,11 +24,11 @@ export default function ImageUpload({
 
             const file = event.target.files[0];
             const fileExt = file.name.split(".").pop();
-            const fileName = `${Date.now()}.${fileExt}`;
+            const fileName = uid ? uid : `${Date.now()}.${fileExt}`;
             const filePath = `${fileName}`;
 
             let { error: uploadError } = await supabase.storage
-                .from("post-image")
+                .from(uid ? "avatars" : "post-image")
                 .upload(filePath, file, { upsert: true });
 
             if (uploadError) {
