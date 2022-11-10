@@ -2,10 +2,12 @@ import React, { FC, useState } from "react";
 import { PhotoIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import ImageUpload from "../imageUpload";
-import fetcher from "../../lib/fetcher";
 
 import { classNameJoiner } from "../../lib/helper";
+import { mutatePost } from "../../hooks";
 
 interface PostFormI {
     method: "ADD" | "EDIT";
@@ -28,29 +30,24 @@ const PostForm: FC<PostFormI> = ({
     const [isLoading, setLoading] = useState(false);
     const supabaseClient = useSupabaseClient();
     const user = useUser();
+    const queryClient = useQueryClient();
+
+    const postMutation = useMutation(mutatePost, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["posts"]);
+            setOpen(false);
+        },
+    });
 
     const handlePost = async () => {
         if (!content || !imageUrl) return;
-        console.log("post mer");
-        try {
-            const res = await fetcher(
-                "/post",
-                {
-                    content,
-                    img_url: imageUrl,
-                    user_id: user?.id,
-                    user_email: user?.email,
-                    id,
-                },
-                method === "ADD" ? "POST" : "PUT"
-            );
-            if (res) {
-                console.log(res);
-                setOpen(false);
-            }
-        } catch (e) {
-            console.log(e);
-        }
+        postMutation.mutate({
+            content,
+            imageUrl,
+            userId: user?.id as string,
+            postId: id as string,
+            method: method === "ADD" ? "POST" : "PUT",
+        });
     };
 
     return (

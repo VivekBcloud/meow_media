@@ -8,7 +8,7 @@ const fetchUser = async (id: string): Promise<Profile> => {
 };
 
 const useUser = async (id: string) => {
-    return useQuery(["posts"], () => fetchUser(id));
+    return useQuery(["profile"], () => fetchUser(id));
 };
 
 export { fetchUser, useUser };

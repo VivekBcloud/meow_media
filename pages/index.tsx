@@ -2,13 +2,16 @@ import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
 
 import CreatePost from "../components/post/createPost";
-import Post from "../components/post";
+import Post from "../components/post/post";
 import ProfileCard from "../components/profileCard";
 import { GetServerSidePropsContext } from "next";
 import { fetchPosts, fetchLikes, fetchUser } from "../hooks";
+import PostLoading from "../components/post/postLoading";
 
 const Home = ({ user_id }: { user_id: string }) => {
-    const { data: posts } = useQuery(["posts"], () => fetchPosts());
+    const { data: posts, isLoading: postIsLoading } = useQuery(["posts"], () =>
+        fetchPosts()
+    );
     const { data: likes } = useQuery(["likes"], () => fetchLikes());
     const { data: profile } = useQuery(["profile"], () => fetchUser(user_id));
     return (
@@ -19,19 +22,25 @@ const Home = ({ user_id }: { user_id: string }) => {
                 </div>
                 <div className="  col-span-2  rounded-lg">
                     {profile && <CreatePost {...profile} />}
-                    {Array.isArray(posts) &&
+                    {postIsLoading ? (
+                        <PostLoading />
+                    ) : (
+                        Array.isArray(posts) &&
                         posts.length > 0 &&
                         posts.map((post) => (
-                            <Post
-                                post={post}
-                                key={post.id}
-                                isLiked={likes!.some(
-                                    (like) =>
-                                        like.post_id === post.id &&
-                                        like.user_id === post.user_id.id
-                                )}
-                            />
-                        ))}
+                            <>
+                                <Post
+                                    post={post}
+                                    key={post.id}
+                                    isLiked={likes!.some(
+                                        (like) =>
+                                            like.post_id === post.id &&
+                                            like.user_id === post.user_id.id
+                                    )}
+                                />
+                            </>
+                        ))
+                    )}
                 </div>
                 <div className=" col-span-1 bg-pc rounded-lg">activity</div>
             </div>

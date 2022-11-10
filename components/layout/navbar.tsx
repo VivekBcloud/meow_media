@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { classNameJoiner } from "../lib/helper";
+import { classNameJoiner } from "../../lib/helper";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 

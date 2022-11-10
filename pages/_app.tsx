@@ -9,7 +9,7 @@ import {
     DehydratedState,
 } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import MyLayout from "../components/myLayout";
+import MyLayout from "../components/layout/myLayout";
 import { useRouter } from "next/router";
 
 function MyApp({

@@ -1,23 +1,29 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import { classNameJoiner, relativeTimeFromDates } from "../lib/helper";
-import { postType } from "../types/all";
+import { classNameJoiner, relativeTimeFromDates } from "../../lib/helper";
+import { postType } from "../../types/all";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import fetcher from "../lib/fetcher";
-import Modal from "./modal";
-import PostForm from "./post/postForm";
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import fetcher from "../../lib/fetcher";
+import Modal from "../modal";
+import PostForm from "./postForm";
+import { useUser } from "@supabase/auth-helpers-react";
+import { removePost } from "../../hooks";
 
 const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
     // console.log(post);
     const [open, setOpen] = useState(false);
     const [alreadyLiked, setAlreadyLiked] = useState(isLiked);
     const user = useUser();
-    const supabase = useSupabaseClient();
-    // const session = useSession();
-    // console.log({ session });
+    const queryClient = useQueryClient();
+
+    const postMutation = useMutation(removePost, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["posts"]);
+        },
+    });
 
     const handleLike = async () => {
         try {
@@ -77,20 +83,11 @@ const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
                         />
                         <TrashIcon
                             className="w-6 h-6 "
-                            onClick={async () => {
-                                try {
-                                    const res = await fetcher(
-                                        "/post",
-                                        {
-                                            id: post.id,
-                                            userId: post.user_id,
-                                        },
-                                        "DELETE"
-                                    );
-                                    if (res) console.log(res);
-                                } catch (e) {
-                                    console.log(e);
-                                }
+                            onClick={() => {
+                                postMutation.mutate({
+                                    id: post.id,
+                                    userId: user?.id as string,
+                                });
                             }}
                         />
                     </div>
