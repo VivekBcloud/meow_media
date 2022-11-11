@@ -6,16 +6,14 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import fetcher from "../../lib/fetcher";
 import Modal from "../modal";
 import PostForm from "./postForm";
 import { useUser } from "@supabase/auth-helpers-react";
 import { removePost } from "../../hooks";
 
-const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
+const UserPost = ({ post }: { post: postType }) => {
     // console.log(post);
     const [open, setOpen] = useState(false);
-    const [alreadyLiked, setAlreadyLiked] = useState(isLiked);
     const user = useUser();
     const queryClient = useQueryClient();
 
@@ -24,25 +22,6 @@ const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
             queryClient.invalidateQueries(["posts"]);
         },
     });
-
-    const handleLike = async () => {
-        try {
-            const res = await fetcher(
-                "/post_like",
-                {
-                    user_id: user?.id,
-                    post_id: post.id,
-                },
-                !alreadyLiked ? "POST" : "DELETE"
-            );
-            if (res) {
-                console.log(res);
-                setAlreadyLiked((prev) => !prev);
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
 
     return (
         <>
@@ -66,14 +45,19 @@ const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
                         </div>
                     </div>
                     <div className="flex gap-1 items-center py-2">
-                        <SolidHeartIcon
-                            className={classNameJoiner(
-                                "w-6 h-6 ",
-                                alreadyLiked ? "text-red-500" : "text-white"
-                            )}
-                            onClick={handleLike}
+                        <PencilSquareIcon
+                            className="w-6 h-6 "
+                            onClick={() => setOpen(true)}
                         />
-                        <div className="text-sm">Liked by {post.likes}</div>
+                        <TrashIcon
+                            className="w-6 h-6 "
+                            onClick={() => {
+                                postMutation.mutate({
+                                    id: post.id,
+                                    userId: user?.id as string,
+                                });
+                            }}
+                        />
                     </div>
                 </div>
             </div>
@@ -90,4 +74,4 @@ const Post = ({ post, isLiked }: { post: postType; isLiked: boolean }) => {
     );
 };
 
-export default Post;
+export default UserPost;

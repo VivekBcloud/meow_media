@@ -1,5 +1,7 @@
+const API_URL = "http://localhost:3000";
+
 export default function fetcher(url: string, data?: any, method?: string) {
-    return fetch(`${window.location.origin}/api${url}`, {
+    return fetch(`${API_URL}/api${url}`, {
         method: method ? method : "GET",
         credentials: "include",
         headers: {

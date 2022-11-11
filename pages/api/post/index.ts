@@ -8,6 +8,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         res,
     });
 
+    if (req.method === "GET") {
+        const { data, error } = await supabaseServerClient.rpc("get_posts");
+        if (error) {
+            throw error;
+        }
+        return res.status(200).json(data);
+    }
     const {
         data: { session },
     } = await supabaseServerClient.auth.getSession();
@@ -18,19 +25,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             description:
                 "The user does not have an active session or is not authenticated",
         });
-
-    if (req.method === "GET") {
-        const { data, error } = await supabaseServerClient
-            .from("Post")
-            .select("*, user_id (avatar_url ,username, id)")
-            .order("created_at", { ascending: false });
-
-        // console.log({ data });
-        if (error) {
-            throw error;
-        }
-        res.status(200).json(data);
-    }
 
     if (req.method === "POST") {
         const { user_id, content, img_url } = req.body;
@@ -59,7 +53,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (error) {
             throw error;
         }
-
         res.status(200).json({ message: "successfully updated post" });
     }
 

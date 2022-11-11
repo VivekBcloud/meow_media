@@ -7,6 +7,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         req,
         res,
     });
+    if (req.method === "GET") {
+        let { data, error } = await supabaseServerClient
+            .from("Like")
+            .select("*");
+
+        if (error) throw error;
+        return res.status(200).json(data);
+    }
     const {
         data: { session },
     } = await supabaseServerClient.auth.getSession();
@@ -17,14 +25,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             description:
                 "The user does not have an active session or is not authenticated",
         });
-    if (req.method === "GET") {
-        let { data, error } = await supabaseServerClient
-            .from("Like")
-            .select("*");
-
-        if (error) throw error;
-        res.status(200).json(data);
-    }
     if (req.method === "POST") {
         const { user_id, post_id } = req.body;
         let { error } = await supabaseServerClient.from("Like").upsert({
@@ -32,7 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             post_id,
         });
         if (error) throw error;
-        res.status(200).json({ message: "successfully liked" });
+        return res.status(200).json({ message: "successfully liked" });
     }
     if (req.method === "DELETE") {
         const { post_id, user_id } = req.body;
@@ -43,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .eq("user_id", user_id);
 
         if (error) throw error;
-        res.status(200).json({ message: "successfully removed like" });
+        return res.status(200).json({ message: "successfully removed like" });
     }
 };
 

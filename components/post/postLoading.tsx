@@ -5,7 +5,7 @@ const PostLoading = () => {
     return (
         <div
             role="status"
-            className="p-3 mt-2 rounded border bg-pc border-gray-200 shadow animate-pulse  dark:border-gray-700"
+            className="p-3 mt-2 rounded  bg-pc  shadow animate-pulse  dark:border-gray-700"
         >
             <div className="flex gap-3 items-center py-2">
                 <svg

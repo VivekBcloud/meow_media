@@ -52,13 +52,9 @@ const removePost = async ({
     );
     return res;
 };
-const updatePost = async (): Promise<postType[]> => {
-    const res = await fetcher("/post");
-    return res;
-};
 
-const fetchMyPosts = async (): Promise<postType[]> => {
-    const res = await fetcher("/post", {}, "POST");
+const fetchPostsByUserId = async (username: string): Promise<postType[]> => {
+    const res = await fetcher(`/post/${username}`);
     return res;
 };
 
@@ -66,4 +62,4 @@ const usePosts = async () => {
     return useQuery(["posts"], () => fetchPosts());
 };
 
-export { usePosts, fetchPosts, mutatePost, removePost, updatePost };
+export { usePosts, fetchPosts, mutatePost, removePost, fetchPostsByUserId };

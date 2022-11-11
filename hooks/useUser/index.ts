@@ -6,9 +6,15 @@ const fetchUser = async (id: string): Promise<Profile> => {
     const res = await fetcher(`/user/${id}`);
     return res;
 };
+const fetchUserDetailsByUsername = async (
+    username: string
+): Promise<Profile> => {
+    const res = await fetcher(`/user/username/${username}`);
+    return res;
+};
 
 const useUser = async (id: string) => {
     return useQuery(["profile"], () => fetchUser(id));
 };
 
-export { fetchUser, useUser };
+export { fetchUser, useUser, fetchUserDetailsByUsername };

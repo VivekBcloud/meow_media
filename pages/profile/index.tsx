@@ -130,7 +130,7 @@ const Profile = () => {
                     />
                 </div>
                 <div className="grid grid-cols-2">
-                    <label htmlFor="username">Full name</label>
+                    <label htmlFor="fullname">Full name</label>
                     <input
                         className="p-2 border border-orange-500 bg-bg rounded-lg text-white "
                         id="fullname"

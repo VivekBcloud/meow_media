@@ -7,16 +7,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         req,
         res,
     });
+    const {
+        data: { session },
+    } = await supabaseServerClient.auth.getSession();
 
+    if (!session)
+        return res.status(401).json({
+            error: "not_authenticated",
+            description:
+                "The user does not have an active session or is not authenticated",
+        });
     if (req.method === "GET") {
         try {
-            const { id } = req.query;
-            console.log("called me with id", id);
+            const { username } = req.query;
+            console.log("called me with username", username);
 
             const { data, error } = await supabaseServerClient
                 .from("profiles")
                 .select("*")
-                .eq("id", id)
+                .eq("username", username)
                 .single();
             if (error) throw error;
 

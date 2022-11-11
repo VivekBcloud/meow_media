@@ -2,8 +2,11 @@ export type postType = {
     id: string;
     content: string;
     img_url: string;
+    avatar_url: string;
+    username: string;
     created_at: string;
-    user_id: { avatar_url: string; username: string; id: string };
+    likes: number;
+    user_id: string;
 };
 
 export type likeType = {
@@ -18,4 +21,5 @@ export interface Profile {
     username: string;
     full_name: string;
     avatar_url: string;
+    bio: string;
 }
