@@ -3,12 +3,8 @@
 @tailwind utilities;
 
 :root {
-    --bg-color: #1a1a1a;
-    --primary-color: #282828;
-    --secondary-color: #222222;
-    --impact-color: #ff7e35;
-}
-
-::-webkit-scrollbar {
-    width: 10px;
+  --bg-color: #1a1a1a;
+  --primary-color: #282828;
+  --secondary-color: #222222;
+  --impact-color: #ff7e35;
 }
