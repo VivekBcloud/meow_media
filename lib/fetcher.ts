@@ -1,11 +1,11 @@
-const API_URL = "http://localhost:3000";
+const API_URL = 'http://localhost:3000';
 
-export default function fetcher(url: string, data?: any, method?: string) {
+export default function fetcher(url: string, data?: unknown, method?: string) {
   return fetch(`${API_URL}/api${url}`, {
-    method: method ? method : "GET",
-    credentials: "include",
+    method: method ? method : 'GET',
+    credentials: 'include',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   }).then((res) => {

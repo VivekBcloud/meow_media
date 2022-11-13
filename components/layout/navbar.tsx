@@ -1,5 +1,5 @@
-import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
-import { useQuery } from "@tanstack/react-query";
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { useQuery } from '@tanstack/react-query';
 
 import {
     HomeIcon,
@@ -7,14 +7,14 @@ import {
     BellIcon,
     FolderOpenIcon,
     ChevronDownIcon,
-} from "@heroicons/react/24/outline";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { classNameJoiner } from "../../lib/helper";
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { fetchUser } from "../../hooks";
+} from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { classNameJoiner } from '../../lib/helper';
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { fetchUser } from '../../hooks';
 
 const Navbar = () => {
     const user = useUser();
@@ -22,7 +22,7 @@ const Navbar = () => {
     const supabaseClient = useSupabaseClient();
 
     const { data: profile } = useQuery(
-        ["profile", user_id],
+        ['profile', user_id],
         () => fetchUser(user_id as string),
         {
             enabled: !!user_id,
@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="flex absolute justify-center top-0 left-0 h-16 w-full bg-bg p-2">
             <nav className="max-w-screen-xl w-full grid grid-cols-4 gap-5 p-2">
                 <div className="left col-span-1 flex gap-5 items-center">
-                    <Link href="/" passHref>
+                    <Link href="/home" passHref>
                         <a className=" bg-white rounded-full p-2 font-bold text-xs cursor-pointer">
                             LZ
                         </a>
@@ -49,11 +49,11 @@ const Navbar = () => {
                 </div>
                 <div className="center col-span-2  flex justify-center items-center gap-10">
                     <div>
-                        <Link href="/">
+                        <Link href="/home">
                             <HomeIcon
                                 className={classNameJoiner(
-                                    "h-6 w-6 text-white",
-                                    currTab === "/" ? "text-impact" : ""
+                                    'h-6 w-6 text-white',
+                                    currTab === '/' ? 'text-impact' : ''
                                 )}
                             />
                         </Link>
@@ -62,8 +62,8 @@ const Navbar = () => {
                         <Link href="/chat">
                             <ChatBubbleOvalLeftEllipsisIcon
                                 className={classNameJoiner(
-                                    "h-6 w-6 text-white",
-                                    currTab === "/chat" ? "text-impact" : ""
+                                    'h-6 w-6 text-white',
+                                    currTab === '/chat' ? 'text-impact' : ''
                                 )}
                             />
                         </Link>
@@ -72,10 +72,10 @@ const Navbar = () => {
                         <Link href="/notification">
                             <BellIcon
                                 className={classNameJoiner(
-                                    "h-6 w-6 text-white",
-                                    currTab === "/notification"
-                                        ? "text-impact"
-                                        : ""
+                                    'h-6 w-6 text-white',
+                                    currTab === '/notification'
+                                        ? 'text-impact'
+                                        : ''
                                 )}
                             />
                         </Link>
@@ -94,7 +94,7 @@ const Navbar = () => {
                         <Image
                             height={24}
                             width={24}
-                            src={profile?.avatar_url || "/profile_2.svg"}
+                            src={profile?.avatar_url || '/profile_2.svg'}
                             alt="drop"
                             className="rounded-full "
                         />
@@ -129,9 +129,9 @@ const Navbar = () => {
                                                 <button
                                                     className={classNameJoiner(
                                                         active
-                                                            ? " text-impact"
-                                                            : "text-gray-200",
-                                                        "block px-4 py-2 text-sm w-full"
+                                                            ? ' text-impact'
+                                                            : 'text-gray-200',
+                                                        'block px-4 py-2 text-sm w-full'
                                                     )}
                                                     onClick={() => {
                                                         supabaseClient.auth.signOut();
