@@ -1,17 +1,38 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
-import fetcher from "../../lib/fetcher";
-import { postType } from "../../types/all";
+import { useQuery } from '@tanstack/react-query';
+import fetcher from '../../lib/fetcher';
+import { postType } from '../../types/all';
 
 type mutatePostType = {
     content: string;
     imageUrl: string;
     userId: string;
     postId: string;
-    method: "POST" | "PUT";
+    method: 'POST' | 'PUT';
 };
 
 const fetchPosts = async (): Promise<postType[]> => {
-    const res = await fetcher("/post");
+    const res = await fetcher('/post');
+    return res;
+};
+
+const fetchPostCommentsByID = async (id: string): Promise<postType[]> => {
+    const res = await fetcher(`/post/comments/${id}`);
+    return res;
+};
+
+const addComment = async (
+    user_id: string,
+    post_id: string,
+    comment: string
+) => {
+    const res = await fetcher(
+        `/post/comments/${post_id}`,
+        {
+            user_id,
+            comment,
+        },
+        'POST'
+    );
     return res;
 };
 
@@ -23,7 +44,7 @@ const mutatePost = async ({
     postId,
 }: mutatePostType): Promise<postType[]> => {
     const res = await fetcher(
-        "/post",
+        '/post',
         {
             id: postId,
             content,
@@ -43,12 +64,12 @@ const removePost = async ({
     userId: string;
 }): Promise<{ message: string }> => {
     const res = await fetcher(
-        "/post",
+        '/post',
         {
             id,
             user_id: userId,
         },
-        "DELETE"
+        'DELETE'
     );
     return res;
 };
@@ -59,7 +80,15 @@ const fetchPostsByUserId = async (username: string): Promise<postType[]> => {
 };
 
 const usePosts = async () => {
-    return useQuery(["posts"], () => fetchPosts());
+    return useQuery(['posts'], () => fetchPosts());
 };
 
-export { usePosts, fetchPosts, mutatePost, removePost, fetchPostsByUserId };
+export {
+    usePosts,
+    fetchPosts,
+    mutatePost,
+    removePost,
+    fetchPostsByUserId,
+    fetchPostCommentsByID,
+    addComment,
+};

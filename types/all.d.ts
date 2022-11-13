@@ -23,3 +23,16 @@ export interface Profile {
     avatar_url: string;
     bio: string;
 }
+
+export type commentType = {
+    id: string;
+    comment: string;
+    post_id: string;
+    created_at: string;
+    user_id: {
+        id: string;
+        username: string;
+        avatar_url: string;
+        full_name: string;
+    };
+};

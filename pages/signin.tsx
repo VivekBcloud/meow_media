@@ -40,9 +40,9 @@ const Signin = () => {
     console.log(user);
 
     return (
-        <div className="bg-red-500 h-screen grid">
+        <div className="bg-gradient-to-t from-indigo-500 via-purple-500 to-pink-500 h-screen grid">
             <div className="w-full lg:w-4/12 px-4 m-auto ">
-                <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
+                <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-purple-300 border-0">
                     <div className="rounded-t mb-0 px-6 py-6">
                         <div className="text-center mb-3">
                             <h6 className=" text-sm text-gray-500 font-medium">
