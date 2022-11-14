@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
         const { data, error } = await supabaseServerClient
             .from('Comment')
-            .select('* ,user_id (* ) ')
+            .select('*')
             .eq('post_id', post_id)
             .order('created_at', { ascending: false });
 

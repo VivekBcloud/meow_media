@@ -28,9 +28,10 @@ const Navbar = () => {
             enabled: !!user_id,
         }
     );
+
     const router = useRouter();
     const currTab = router.pathname;
-    console.log({ currTab });
+    // console.log({ currTab });
 
     return (
         <div className="flex absolute justify-center top-0 left-0 h-16 w-full bg-bg p-2">
@@ -53,7 +54,7 @@ const Navbar = () => {
                             <HomeIcon
                                 className={classNameJoiner(
                                     'h-6 w-6 text-white',
-                                    currTab === '/' ? 'text-impact' : ''
+                                    currTab === '/home' ? 'text-impact' : ''
                                 )}
                             />
                         </Link>

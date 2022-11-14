@@ -29,10 +29,13 @@ export type commentType = {
     comment: string;
     post_id: string;
     created_at: string;
-    user_id: {
-        id: string;
-        username: string;
-        avatar_url: string;
-        full_name: string;
-    };
+    user_id: string;
+};
+
+export type commentReturnType = {
+    id: string;
+    comment: string;
+    post_id: string;
+    created_at: string;
+    user_id: Profile;
 };
