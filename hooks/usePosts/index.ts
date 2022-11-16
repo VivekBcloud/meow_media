@@ -79,7 +79,7 @@ const fetchPostsByUserId = async (username: string): Promise<postType[]> => {
     return res;
 };
 
-const usePosts = async () => {
+const usePosts = () => {
     return useQuery(['posts'], () => fetchPosts());
 };
 

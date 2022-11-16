@@ -80,7 +80,7 @@ const Post = ({ comments }: { comments: commentType[] }) => {
         ['profile', user_id],
         () => fetchUser(user_id as string),
         {
-            enabled: !user_id,
+            enabled: !!user_id,
         }
     );
     const currPost = posts?.filter((post) => post.id === post_id)[0];
@@ -103,7 +103,9 @@ const Post = ({ comments }: { comments: commentType[] }) => {
                 <div className="grid grid-cols-4 gap-5  mx-auto max-w-screen-xl p-2">
                     {profile && <ProfileCard {...profile} />}
                     <section className="col-start-2 col-span-2 max-h-[calc(100vh-5rem)] overflow-y-scroll">
-                        {currPost && <PostCard post={currPost} isLiked />}
+                        {currPost && (
+                            <PostCard post={currPost} isLiked likedBy={1} />
+                        )}
                         <div className="p-2">
                             <form onSubmit={handleSubmit}>
                                 <label htmlFor="comment">

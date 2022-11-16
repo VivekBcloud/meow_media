@@ -30,9 +30,6 @@ const Signin = () => {
     async function signInWithOAuth(providerName: Provider) {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: providerName,
-            // options: {
-            //     redirectTo: "https://example.com/welcome",
-            // },
         });
         setUser(data);
     }
@@ -63,19 +60,6 @@ const Signin = () => {
                                 />
                                 <span className="ml-2">Github</span>
                             </button>
-                            {/* <button
-                                className="bg-white active:bg-gray-50 text-gray-700  px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                type="button"
-                                onClick={() => signInWithOAuth("google")}
-                            >
-                                <Image
-                                    width={20}
-                                    height={20}
-                                    alt="ggle"
-                                    src="/google.svg"
-                                />
-                                <span className="ml-2">Google</span>
-                            </button> */}
                         </div>
                         <hr className="mt-1 border-b-1 border-gray-300" />
                     </div>

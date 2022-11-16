@@ -24,7 +24,7 @@ const useMapUserIdToUsername = (id: string): string => {
     return data?.filter((user) => user.id === id)[0].username || '';
 };
 
-const useUser = async (id: string) => {
+const useUser = (id: string) => {
     return useQuery(['profile'], () => fetchUser(id));
 };
 

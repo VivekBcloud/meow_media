@@ -22,7 +22,7 @@ const Navbar = () => {
     const supabaseClient = useSupabaseClient();
 
     const { data: profile } = useQuery(
-        ['profile', user_id],
+        ['profile'],
         () => fetchUser(user_id as string),
         {
             enabled: !!user_id,
@@ -31,7 +31,6 @@ const Navbar = () => {
 
     const router = useRouter();
     const currTab = router.pathname;
-    // console.log({ currTab });
 
     return (
         <div className="flex absolute justify-center top-0 left-0 h-16 w-full bg-bg p-2">
