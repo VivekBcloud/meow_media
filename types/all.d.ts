@@ -10,8 +10,8 @@ export type postType = {
 };
 
 export type likeType = {
-    id: string;
-    created_at: string;
+    id?: string;
+    created_at?: string;
     user_id: string;
     post_id: string;
 };

@@ -41,8 +41,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { error } = await supabaseServerClient
             .from('Like')
             .delete()
-            .eq('post_id', post_id)
-            .eq('user_id', user_id);
+            .match({ post_id, user_id });
 
         if (error) throw error;
         return res.status(200).json({ message: 'successfully removed like' });

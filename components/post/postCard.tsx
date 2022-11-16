@@ -1,19 +1,19 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { classNameJoiner, relativeTimeFromDates } from '../../lib/helper';
-import { likeType, postType } from '../../types/all';
-import {
-    ChatBubbleOvalLeftIcon,
-    HeartIcon as SolidHeartIcon,
-} from '@heroicons/react/24/outline';
+import { postType } from '../../types/all';
+import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as SolidFilledHeartIcon } from '@heroicons/react/24/solid';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import fetcher from '../../lib/fetcher';
 import Modal from '../modal';
 import PostForm from './postForm';
 import { useUser } from '@supabase/auth-helpers-react';
-import { removePost } from '../../hooks';
+import {
+    removePost,
+    useAddLikeMutation,
+    useRemoveLikeMutation,
+} from '../../hooks';
 import Link from 'next/link';
 
 const PostCard = ({
@@ -27,7 +27,6 @@ const PostCard = ({
 }) => {
     // console.log(post);
     const [open, setOpen] = useState(false);
-    const [likeDisabled, setLikeDisabled] = useState(false);
     const user = useUser();
     const queryClient = useQueryClient();
 
@@ -36,28 +35,13 @@ const PostCard = ({
             queryClient.invalidateQueries(['posts']);
         },
     });
-
+    const addLikeMutation = useAddLikeMutation();
+    const removeLikeMutation = useRemoveLikeMutation();
     const handleLike = async () => {
-        if (!user?.id) return;
-        if (likeDisabled) return;
-        try {
-            setLikeDisabled(true);
-            const res = await fetcher(
-                '/post_like',
-                {
-                    user_id: user?.id,
-                    post_id: post.id,
-                },
-                !isLiked ? 'POST' : 'DELETE'
-            );
-            if (res) {
-                console.log(res);
-                setLikeDisabled(false);
-            }
-        } catch (e) {
-            console.log(e);
-        } finally {
-            setLikeDisabled(false);
+        if (!isLiked && user?.id) {
+            addLikeMutation.mutate({ user_id: user?.id, post_id: post.id });
+        } else if (user?.id) {
+            removeLikeMutation.mutate({ user_id: user?.id, post_id: post.id });
         }
     };
 
