@@ -33,7 +33,12 @@ const UserProfile = () => {
     return (
         <div className="h-full w-full ">
             <div className="grid grid-cols-4 gap-5 h-full mx-auto max-w-screen-xl p-2 text-orange-500 text-lg ">
-                <div className="col-span-1">something</div>
+                <div className="col-span-1 p-1 text-gray-300 font-light">
+                    <div className="px-1">friends</div>
+                    <div className="w-full rounded-lg  bg-sc p-2">
+                        your friend
+                    </div>
+                </div>
                 <div className="col-span-1 bg-pc rounded-lg">
                     <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg">
                         <Image
@@ -45,21 +50,18 @@ const UserProfile = () => {
                         />
                     </div>
                 </div>
-                <div className="col-span-2 rounded-lg bg-pc p-2 ">
+                <div className="col-span-2 flex flex-col gap-2 rounded-lg bg-pc p-4 ">
                     <div className="flex">
-                        <div className="text-lg">{profile?.username}</div>
-                        <div className="border border-white p-2 bg-bg">
-                            edit
-                        </div>
+                        <div className="text-6xl">{profile?.username}</div>
                     </div>
                     <div className="flex gap-2">
-                        <div>post</div>
+                        <div>Total posts: {posts?.length}</div>
                     </div>
-                    <div className="bg-bg">{profile?.bio}</div>
+                    <div className=" h-full text-gray-300">{profile?.bio}</div>
                 </div>
             </div>
             <div className="grid grid-cols-4 gap-5 h-full mx-auto max-w-screen-xl p-2 text-orange-500 text-lg ">
-                <div className="col-span-1">something</div>
+                <div className="col-span-1"></div>
                 <div className="col-span-2">
                     {postIsLoading && 'loading'}
                     {Array.isArray(posts) &&
@@ -68,7 +70,7 @@ const UserProfile = () => {
                             <UserPost post={post} key={post.id} />
                         ))}
                 </div>
-                <div className="col-span-1">something</div>
+                <div className="col-span-1"></div>
             </div>
         </div>
     );

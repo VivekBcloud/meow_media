@@ -133,6 +133,23 @@ const Navbar = () => {
                                                             : 'text-gray-200',
                                                         'block px-4 py-2 text-sm w-full'
                                                     )}
+                                                    onClick={() =>
+                                                        router.push(`/profile`)
+                                                    }
+                                                >
+                                                    Edit
+                                                </button>
+                                            )}
+                                        </Menu.Item>
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <button
+                                                    className={classNameJoiner(
+                                                        active
+                                                            ? ' text-impact'
+                                                            : 'text-gray-200',
+                                                        'block px-4 py-2 text-sm w-full'
+                                                    )}
                                                     onClick={() => {
                                                         supabaseClient.auth.signOut();
                                                     }}
