@@ -39,3 +39,10 @@ export type commentReturnType = {
     created_at: string;
     user_id: Profile;
 };
+
+export type activityType = {
+    id: string;
+    user_id: string;
+    type: 'post';
+    created_at: string;
+};

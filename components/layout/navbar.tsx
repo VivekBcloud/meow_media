@@ -33,7 +33,7 @@ const Navbar = () => {
     const currTab = router.pathname;
 
     return (
-        <div className="flex absolute justify-center top-0 left-0 h-16 w-full bg-bg p-2">
+        <div className="flex fixed justify-center top-0 left-0 h-16 w-full bg-bg p-2 z-50">
             <nav className="max-w-screen-xl w-full grid grid-cols-4 gap-5 p-2">
                 <div className="left col-span-1 flex gap-5 items-center">
                     <Link href="/home" passHref>

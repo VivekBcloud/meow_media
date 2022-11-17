@@ -13,7 +13,7 @@ export default async function fetcher<T>(
         },
         body: JSON.stringify(data),
     });
-    if (res.status < 200 && res.status > 399) {
+    if (res.status < 200 || res.status > 399) {
         throw new Error();
     }
     return await res.json();

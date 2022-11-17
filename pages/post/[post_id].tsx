@@ -5,6 +5,7 @@ import { GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import MyLayout from '../../components/layout/myLayout';
 import PostCard from '../../components/post/postCard';
 import ProfileCard from '../../components/profileCard';
@@ -102,20 +103,23 @@ const Post = ({ comments }: { comments: commentType[] }) => {
             <div className="h-full w-full ">
                 <div className="grid grid-cols-4 gap-5  mx-auto max-w-screen-xl p-2">
                     {profile && <ProfileCard {...profile} />}
-                    <section className="col-start-2 col-span-2 max-h-[calc(100vh-5rem)] overflow-y-scroll">
+                    <section className="col-start-2 col-span-2 max-h-[calc(100vh-5rem)] px-1 overflow-y-scroll">
                         {currPost && (
                             <PostCard post={currPost} isLiked likedBy={1} />
                         )}
-                        <div className="p-2">
+                        <div className="py-2">
                             <form onSubmit={handleSubmit}>
                                 <label htmlFor="comment">
-                                    Add comment
-                                    <input
-                                        id="comment"
-                                        type="text"
-                                        ref={commentRef}
-                                        className="w-full p-1 rounded bg-pc text-gray-300 border "
-                                    />
+                                    <div className="relative flex gap-1 items-center">
+                                        <input
+                                            id="comment"
+                                            type="text"
+                                            ref={commentRef}
+                                            placeholder="type comment"
+                                            className="w-full px-3 p-2 rounded bg-sc text-gray-300  "
+                                        />
+                                        <PaperAirplaneIcon className="w-7 h-7 text-gray-300 absolute right-2 top-[50%] translate-y-[-50%]" />
+                                    </div>
                                 </label>
                             </form>
 

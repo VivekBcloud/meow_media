@@ -7,11 +7,17 @@ import { fetchLikes, fetchUser, fetchAllUser, usePosts } from '../../hooks';
 import PostSkeleton from '../../components/post/postSkeleton';
 import { useUser } from '@supabase/auth-helpers-react';
 import MyLayout from '../../components/layout/myLayout';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Activites from '../../components/activities';
 
 const Home = () => {
     const user = useUser();
     const user_id = user?.id;
+    const router = useRouter();
+    useEffect(() => {
+        if (!user) router.push('/');
+    }, [router, user]);
     const { data: posts, isLoading: postIsLoading } = usePosts();
     const queryclient = useQueryClient();
 
@@ -35,12 +41,14 @@ const Home = () => {
 
     return (
         <MyLayout>
-            <div className="h-full w-full ">
+            <div className="h-full w-full  ">
                 <div className="grid grid-cols-4 gap-5  mx-auto max-w-screen-xl p-2">
-                    <div className="col-span-1 bg-pc rounded-lg">
-                        {isProfileLoading
-                            ? 'loading'
-                            : profile && <ProfileCard {...profile} />}
+                    <div className="relative">
+                        <div className="col-span-1 bg-pc rounded-lg sticky top-[4.5rem] ">
+                            {isProfileLoading
+                                ? 'loading'
+                                : profile && <ProfileCard {...profile} />}
+                        </div>
                     </div>
                     <div className="col-span-2 rounded-lg">
                         {profile && <CreatePost {...profile} />}
@@ -82,8 +90,10 @@ const Home = () => {
                                   />
                               ))}
                     </div>
-                    <div className=" col-span-1 bg-pc rounded-lg text-gray-300">
-                        Friends
+                    <div className="relative w-full ">
+                        <div className=" col-span-1 w-full bg-pc rounded-lg text-gray-300 sticky top-[4.5rem] ">
+                            <Activites />
+                        </div>
                     </div>
                 </div>
             </div>

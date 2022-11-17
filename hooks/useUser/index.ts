@@ -3,19 +3,19 @@ import fetcher from '../../lib/fetcher';
 import { Profile } from '../../types/all';
 
 const fetchUser = async (id: string): Promise<Profile> => {
-    const res = await fetcher(`/user/${id}`);
+    const res = await fetcher<Profile>(`/user/${id}`);
     return res;
 };
 
 const fetchAllUser = async (): Promise<Profile[]> => {
-    const res = await fetcher(`/user`);
+    const res = await fetcher<Profile[]>(`/user`);
     return res;
 };
 
 const fetchUserDetailsByUsername = async (
     username: string
 ): Promise<Profile> => {
-    const res = await fetcher(`/user/username/${username}`);
+    const res = await fetcher<Profile>(`/user/username/${username}`);
     return res;
 };
 
