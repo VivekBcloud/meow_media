@@ -33,9 +33,9 @@ function MyApp({
     const router = useRouter();
     useEffect(() => {
         const { data: authListener } = supabaseClient.auth.onAuthStateChange(
-            (event, session) => {
+            (event) => {
                 if (event == 'SIGNED_IN') router.push('/home');
-                if (event == 'SIGNED_OUT') router.push('/signin');
+                if (event == 'SIGNED_OUT') router.push('/');
             }
         );
 

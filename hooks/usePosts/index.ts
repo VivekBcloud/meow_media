@@ -11,12 +11,12 @@ type mutatePostType = {
 };
 
 const fetchPosts = async (): Promise<postType[]> => {
-    const res = await fetcher('/post');
+    const res = await fetcher<postType[]>('/post');
     return res;
 };
 
 const fetchPostCommentsByID = async (id: string): Promise<postType[]> => {
-    const res = await fetcher(`/post/comments/${id}`);
+    const res = await fetcher<postType[]>(`/post/comments/${id}`);
     return res;
 };
 
@@ -43,7 +43,7 @@ const mutatePost = async ({
     userId,
     postId,
 }: mutatePostType): Promise<postType[]> => {
-    const res = await fetcher(
+    const res = await fetcher<postType[]>(
         '/post',
         {
             id: postId,
@@ -63,7 +63,7 @@ const removePost = async ({
     id: string;
     userId: string;
 }): Promise<{ message: string }> => {
-    const res = await fetcher(
+    const res = await fetcher<{ message: string }>(
         '/post',
         {
             id,
@@ -74,8 +74,8 @@ const removePost = async ({
     return res;
 };
 
-const fetchPostsByUserId = async (username: string): Promise<postType[]> => {
-    const res = await fetcher(`/post/${username}`);
+const fetchPostsByUsername = async (username: string): Promise<postType[]> => {
+    const res = await fetcher<postType[]>(`/post/${username}`);
     return res;
 };
 
@@ -88,7 +88,7 @@ export {
     fetchPosts,
     mutatePost,
     removePost,
-    fetchPostsByUserId,
+    fetchPostsByUsername,
     fetchPostCommentsByID,
     addComment,
 };

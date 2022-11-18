@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
-import { fetchPostsByUserId, fetchUserDetailsByUsername } from '../../hooks';
+import { fetchPostsByUsername, fetchUserDetailsByUsername } from '../../hooks';
 import UserPost from '../../components/post/mypost';
 
 const UserProfile = () => {
@@ -21,7 +21,7 @@ const UserProfile = () => {
     const userId = profile?.id;
     const { data: posts, isLoading: postIsLoading } = useQuery(
         ['posts', userId],
-        () => fetchPostsByUserId(username as string),
+        () => fetchPostsByUsername(username as string),
         {
             enabled: !!userId,
         }

@@ -91,8 +91,13 @@ const Home = () => {
                               ))}
                     </div>
                     <div className="relative w-full ">
-                        <div className=" col-span-1 w-full bg-pc rounded-lg text-gray-300 sticky top-[4.5rem] ">
-                            <Activites />
+                        <div className=" col-span-1 w-full flex flex-col gap-3 text-gray-300 sticky top-[4.5rem] ">
+                            <div className="bg-pc rounded-lg">
+                                <Activites />
+                            </div>
+                            <div className="bg-pc rounded-lg p-2 px-3 font-light">
+                                Friends online
+                            </div>
                         </div>
                     </div>
                 </div>

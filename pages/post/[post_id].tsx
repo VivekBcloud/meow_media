@@ -116,9 +116,12 @@ const Post = ({ comments }: { comments: commentType[] }) => {
                                             type="text"
                                             ref={commentRef}
                                             placeholder="type comment"
-                                            className="w-full px-3 p-2 rounded bg-sc text-gray-300  "
+                                            className="w-full px-3 p-2 rounded bg-sc text-gray-300 focus:bg-bg  "
                                         />
-                                        <PaperAirplaneIcon className="w-7 h-7 text-gray-300 absolute right-2 top-[50%] translate-y-[-50%]" />
+                                        <PaperAirplaneIcon
+                                            onClick={handleSubmit}
+                                            className="w-7 h-7 text-gray-300 absolute right-2 top-[50%] translate-y-[-50%]"
+                                        />
                                     </div>
                                 </label>
                             </form>

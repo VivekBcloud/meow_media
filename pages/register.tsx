@@ -1,33 +1,36 @@
-import Image from 'next/image';
 import React from 'react';
 
-import { Provider } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 
 const Signin = () => {
     const supabase = useSupabaseClient();
-
-    async function signInWithEmail(e: React.SyntheticEvent<HTMLFormElement>) {
+    const signUpWithEmail = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { email, password } = Object.fromEntries(
+        const { email, password, username, full_name } = Object.fromEntries(
             new FormData(e.target as HTMLFormElement)
         );
 
-        if (typeof email === 'string' && typeof password === 'string')
-            await supabase.auth.signInWithPassword({
+        if (
+            typeof email === 'string' &&
+            typeof password === 'string' &&
+            typeof username === 'string' &&
+            typeof full_name === 'string'
+        ) {
+            await supabase.auth.signUp({
                 email,
                 password,
+                options: {
+                    data: {
+                        username,
+                        full_name,
+                    },
+                },
             });
-    }
-
-    async function signInWithOAuth(providerName: Provider) {
-        await supabase.auth.signInWithOAuth({
-            provider: providerName,
-        });
-    }
-    const signInWithEmailMutation = useMutation(signInWithEmail);
+        }
+    };
+    const signUpMutation = useMutation(signUpWithEmail);
 
     return (
         <div className="bg-gradient-to-t from-indigo-500 via-purple-500 to-pink-500 h-screen grid">
@@ -35,39 +38,14 @@ const Signin = () => {
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-purple-300 border-0">
                     <div className="rounded-t mb-0 px-6 py-6">
                         <div className="text-center mb-3">
-                            <h6 className=" text-sm text-gray-500 font-medium">
-                                Continue with
-                            </h6>
-                        </div>
-                        <div className="text-center px-4">
-                            <button
-                                className="bg-white active:bg-gray-50 text-gray-700 font-bold px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md flex w-full  items-center justify-center  ease-linear transition-all duration-150"
-                                type="button"
-                                onClick={() => signInWithOAuth('github')}
-                            >
-                                <Image
-                                    width={30}
-                                    height={30}
-                                    alt="gh"
-                                    src="/github.svg"
-                                />
-                                <span className="ml-2">Github</span>
-                            </button>
+                            <div className=" text-lg text-gray-500 font-medium">
+                                Register
+                            </div>
                         </div>
                         <hr className="mt-1 border-b-1 border-gray-300" />
                     </div>
                     <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                        <div className="text-gray-500 text-center mb-3 font-bold ">
-                            <small>Or {'signin'} with credentials</small>
-                        </div>
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                console.log('before', e);
-
-                                signInWithEmailMutation.mutate(e);
-                            }}
-                        >
+                        <form onSubmit={signUpMutation.mutate}>
                             <div className="relative w-full mb-3">
                                 <label
                                     className="block uppercase text-gray-600 text-xs font-bold mb-2"
@@ -76,13 +54,43 @@ const Signin = () => {
                                     Email
                                 </label>
                                 <input
+                                    required
                                     type="email"
                                     className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     placeholder="Email"
                                     name="email"
                                 />
                             </div>
-
+                            <div className="relative w-full mb-3">
+                                <label
+                                    className="block uppercase text-gray-600 text-xs font-bold mb-2"
+                                    htmlFor="grid-password"
+                                >
+                                    Username
+                                </label>
+                                <input
+                                    required
+                                    type="text"
+                                    className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                    placeholder="username"
+                                    name="username"
+                                />
+                            </div>
+                            <div className="relative w-full mb-3">
+                                <label
+                                    className="block uppercase text-gray-600 text-xs font-bold mb-2"
+                                    htmlFor="full_name"
+                                >
+                                    Full name
+                                </label>
+                                <input
+                                    required
+                                    type="text"
+                                    className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                    placeholder="full name"
+                                    name="full_name"
+                                />
+                            </div>
                             <div className="relative w-full mb-3">
                                 <label
                                     className="block uppercase text-gray-600 text-xs font-bold mb-2"
@@ -91,34 +99,22 @@ const Signin = () => {
                                     Password
                                 </label>
                                 <input
+                                    required
                                     type="password"
                                     name="password"
                                     className="border-0 px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                                     placeholder="Password"
                                 />
                             </div>
-                            <div>
-                                <label className="inline-flex items-center cursor-pointer">
-                                    <input
-                                        id="customCheckLogin"
-                                        type="checkbox"
-                                        className="form-checkbox border-0 rounded text-gray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                                    />
-
-                                    <span className="ml-2 text-sm font-semibold text-gray-600">
-                                        Remember me
-                                    </span>
-                                </label>
-                            </div>
 
                             <div className="text-center mt-6">
                                 <button
-                                    className=" bg-gray-800 text-white active:bg-gray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                                    className="bg-gray-800 text-white active:bg-gray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                                     type="submit"
-                                    disabled={signInWithEmailMutation.isLoading}
+                                    disabled={signUpMutation.isLoading}
                                 >
-                                    {'Sign in'}
-                                    {signInWithEmailMutation.isLoading && (
+                                    {'Register'}
+                                    {signUpMutation.isLoading && (
                                         <svg
                                             aria-hidden="true"
                                             role="status"
@@ -140,10 +136,10 @@ const Signin = () => {
                                 </button>
                             </div>
                             <div className="mt-3 text-center">
-                                {'Need an account '}
-                                <Link href="/register">
+                                {'Already have an account '}
+                                <Link href="/signin">
                                     <span className="underline  px-1 cursor-pointer font-medium hover:text-gray-600 ease-in transition-all duration-100">
-                                        {'Register'}
+                                        {'Sign in'}
                                     </span>
                                 </Link>
                             </div>
