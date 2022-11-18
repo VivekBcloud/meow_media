@@ -1,16 +1,16 @@
-import React, { FC, useState } from "react";
-import { PhotoIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { FC, useState } from 'react';
+import { PhotoIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import ImageUpload from "../imageUpload";
+import ImageUpload from '../imageUpload/ImgUploadButton';
 
-import { classNameJoiner } from "../../lib/helper";
-import { mutatePost } from "../../hooks";
+import { classNameJoiner } from '../../lib/helper';
+import { mutatePost } from '../../hooks';
 
 interface PostFormI {
-    method: "ADD" | "EDIT";
+    method: 'ADD' | 'EDIT';
     postContent?: string;
     img_url?: string;
     id?: string;
@@ -19,9 +19,9 @@ interface PostFormI {
 
 const PostForm: FC<PostFormI> = ({
     method,
-    postContent = "",
+    postContent = '',
     id,
-    img_url = "",
+    img_url = '',
     setOpen,
 }) => {
     const [imageUrl, setImageUrl] = useState(img_url);
@@ -34,7 +34,7 @@ const PostForm: FC<PostFormI> = ({
 
     const postMutation = useMutation(mutatePost, {
         onSuccess: () => {
-            queryClient.invalidateQueries(["posts"]);
+            queryClient.invalidateQueries(['posts']);
             setOpen(false);
         },
     });
@@ -46,7 +46,7 @@ const PostForm: FC<PostFormI> = ({
             imageUrl,
             userId: user?.id as string,
             postId: id as string,
-            method: method === "ADD" ? "POST" : "PUT",
+            method: method === 'ADD' ? 'POST' : 'PUT',
         });
     };
 
@@ -61,10 +61,10 @@ const PostForm: FC<PostFormI> = ({
                             alt="post"
                             objectFit="cover"
                             className={classNameJoiner(
-                                "duration-700 ease-in-out ",
+                                'duration-700 ease-in-out ',
                                 isLoading
-                                    ? "scale-110 blur-2xl grayscale"
-                                    : "scale-100 blur-0 grayscale-0"
+                                    ? 'scale-110 blur-2xl grayscale'
+                                    : 'scale-100 blur-0 grayscale-0'
                             )}
                             onLoadingComplete={() => setLoading(false)}
                         />
@@ -85,7 +85,7 @@ const PostForm: FC<PostFormI> = ({
                     onUpload={async (url) => {
                         try {
                             const { data } = supabaseClient.storage
-                                .from("post-image")
+                                .from('post-image')
                                 .getPublicUrl(url);
 
                             // if (error) {
@@ -94,17 +94,17 @@ const PostForm: FC<PostFormI> = ({
                             // const url = URL.createObjectURL(data);
                             setImageUrl(data.publicUrl);
                         } catch (error) {
-                            console.log("Error downloading image: ", error);
+                            console.log('Error downloading image: ', error);
                         }
                     }}
-                    uid={""}
+                    uid={''}
                 />
                 <button
                     onClick={() => handlePost()}
                     className="w-full rounded-xl  px-4 flex items-center justify-center gap-1 col-start-4 text-white border border-pc"
                 >
                     <PaperAirplaneIcon className="h-5 w-5 " />
-                    <div className="font-bold text-sm">{"Post"}</div>
+                    <div className="font-bold text-sm">{'Post'}</div>
                 </button>
             </div>
         </div>

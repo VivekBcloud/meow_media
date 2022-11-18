@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider, Session } from '@supabase/auth-helpers-react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
+import NextNProgress from 'nextjs-progressbar';
 import {
     QueryClient,
     QueryClientProvider,
@@ -58,6 +58,10 @@ function MyApp({
                             <Component {...pageProps} />
                         ) : (
                             <MyLayout>
+                                <NextNProgress
+                                    color="#ff7e35"
+                                    options={{ showSpinner: false }}
+                                />
                                 <Component {...pageProps} />
                             </MyLayout>
                         )
