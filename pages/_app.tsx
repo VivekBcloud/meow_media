@@ -5,72 +5,72 @@ import { SessionContextProvider, Session } from '@supabase/auth-helpers-react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import NextNProgress from 'nextjs-progressbar';
 import {
-    QueryClient,
-    QueryClientProvider,
-    Hydrate,
-    DehydratedState,
+  QueryClient,
+  QueryClientProvider,
+  Hydrate,
+  DehydratedState,
 } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import MyLayout from '../components/layout/myLayout';
 import { useRouter } from 'next/router';
 
 function MyApp({
-    Component,
-    pageProps,
+  Component,
+  pageProps,
 }: AppProps<{ initialSession: Session; dehydratedState: DehydratedState }>) {
-    const [queryClient] = useState(
-        () =>
-            new QueryClient({
-                defaultOptions: {
-                    queries: {
-                        refetchOnWindowFocus: false,
-                    },
-                },
-            })
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
+
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
+  const router = useRouter();
+  useEffect(() => {
+    const { data: authListener } = supabaseClient.auth.onAuthStateChange(
+      (event) => {
+        if (event == 'SIGNED_IN') router.push('/home');
+        if (event == 'SIGNED_OUT') router.push('/');
+      }
     );
 
-    const [supabaseClient] = useState(() => createBrowserSupabaseClient());
-    const router = useRouter();
-    useEffect(() => {
-        const { data: authListener } = supabaseClient.auth.onAuthStateChange(
-            (event) => {
-                if (event == 'SIGNED_IN') router.push('/home');
-                if (event == 'SIGNED_OUT') router.push('/');
-            }
-        );
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
+  }, [supabaseClient.auth, router]);
 
-        return () => {
-            authListener?.subscription.unsubscribe();
-        };
-    }, [supabaseClient.auth, router]);
-
-    return (
-        <SessionContextProvider
-            supabaseClient={supabaseClient}
-            initialSession={pageProps.initialSession}
-        >
-            <QueryClientProvider client={queryClient}>
-                <Hydrate state={pageProps.dehydratedState}>
-                    {
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        Component.setLayout ? (
-                            <Component {...pageProps} />
-                        ) : (
-                            <MyLayout>
-                                <NextNProgress
-                                    color="#ff7e35"
-                                    options={{ showSpinner: false }}
-                                />
-                                <Component {...pageProps} />
-                            </MyLayout>
-                        )
-                    }
-                </Hydrate>
-                <ReactQueryDevtools initialIsOpen={true} />
-            </QueryClientProvider>
-        </SessionContextProvider>
-    );
+  return (
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            Component.setLayout ? (
+              <Component {...pageProps} />
+            ) : (
+              <MyLayout>
+                <NextNProgress
+                  color="#ff7e35"
+                  options={{ showSpinner: false }}
+                />
+                <Component {...pageProps} />
+              </MyLayout>
+            )
+          }
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={true} />
+      </QueryClientProvider>
+    </SessionContextProvider>
+  );
 }
 
 export default MyApp;

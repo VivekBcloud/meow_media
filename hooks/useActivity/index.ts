@@ -3,11 +3,11 @@ import fetcher from '../../lib/fetcher';
 import { activityType } from '../../types/all';
 
 const fetchActivities = async () => {
-    const res = await fetcher<activityType[]>('/activities');
-    return res;
+  const res = await fetcher<activityType[]>('/activities');
+  return res;
 };
 
 const useActivities = () => {
-    return useQuery(['activities'], fetchActivities);
+  return useQuery(['activities'], fetchActivities);
 };
 export { fetchActivities, useActivities };

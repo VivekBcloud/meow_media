@@ -3,71 +3,71 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    const supabaseServerClient = createServerSupabaseClient({
-        req,
-        res,
+  const supabaseServerClient = createServerSupabaseClient({
+    req,
+    res,
+  });
+
+  if (req.method === 'GET') {
+    const { data, error } = await supabaseServerClient.rpc('get_posts');
+    if (error) {
+      throw error;
+    }
+    return res.status(200).json(data);
+  }
+  const {
+    data: { session },
+  } = await supabaseServerClient.auth.getSession();
+
+  if (!session)
+    return res.status(401).json({
+      error: 'not_authenticated',
+      description:
+        'The user does not have an active session or is not authenticated',
     });
 
-    if (req.method === 'GET') {
-        const { data, error } = await supabaseServerClient.rpc('get_posts');
-        if (error) {
-            throw error;
-        }
-        return res.status(200).json(data);
+  // Add new post ////////////////////////////////
+  if (req.method === 'POST') {
+    const { user_id, content, img_url } = req.body;
+    const { error } = await supabaseServerClient.from('Post').insert({
+      user_id,
+      content,
+      img_url,
+    });
+    if (error) throw error;
+    res.status(200).json({ message: 'successfully added new post' });
+  }
+  // UPDATE EXISTING POST //////////////////////
+  if (req.method === 'PUT') {
+    const { id, content, img_url } = req.body;
+    const { data, error } = await supabaseServerClient
+      .from('Post')
+      .update({
+        content,
+        img_url,
+      })
+      .eq('id', id)
+      .select();
+
+    console.log({ data });
+
+    if (error) {
+      throw error;
     }
-    const {
-        data: { session },
-    } = await supabaseServerClient.auth.getSession();
+    res.status(200).json({ message: 'successfully updated post' });
+  }
+  /// DELETE POST //////////////////////////////////
+  if (req.method === 'DELETE') {
+    const { id, user_id } = req.body;
+    const { error } = await supabaseServerClient
+      .from('Post')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user_id);
 
-    if (!session)
-        return res.status(401).json({
-            error: 'not_authenticated',
-            description:
-                'The user does not have an active session or is not authenticated',
-        });
-
-    // Add new post ////////////////////////////////
-    if (req.method === 'POST') {
-        const { user_id, content, img_url } = req.body;
-        const { error } = await supabaseServerClient.from('Post').insert({
-            user_id,
-            content,
-            img_url,
-        });
-        if (error) throw error;
-        res.status(200).json({ message: 'successfully added new post' });
-    }
-    // UPDATE EXISTING POST //////////////////////
-    if (req.method === 'PUT') {
-        const { id, content, img_url } = req.body;
-        const { data, error } = await supabaseServerClient
-            .from('Post')
-            .update({
-                content,
-                img_url,
-            })
-            .eq('id', id)
-            .select();
-
-        console.log({ data });
-
-        if (error) {
-            throw error;
-        }
-        res.status(200).json({ message: 'successfully updated post' });
-    }
-    /// DELETE POST //////////////////////////////////
-    if (req.method === 'DELETE') {
-        const { id, user_id } = req.body;
-        const { error } = await supabaseServerClient
-            .from('Post')
-            .delete()
-            .eq('id', id)
-            .eq('user_id', user_id);
-
-        if (error) throw error;
-        res.status(200).json({ message: 'successfully deleted post' });
-    }
+    if (error) throw error;
+    res.status(200).json({ message: 'successfully deleted post' });
+  }
 };
 
 export default handler;
