@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_ROUTE || 'http://localhost:3000';
 
 export default async function fetcher<T>(
   url: string,
