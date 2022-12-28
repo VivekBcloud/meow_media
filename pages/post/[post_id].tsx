@@ -96,7 +96,7 @@ const Post = ({ comments }: { comments: commentType[] }) => {
       commentRef.current.value = '';
     }
   };
-  console.log({ commentsData });
+  // console.log({ commentsData });
 
   return (
     <MyLayout>
