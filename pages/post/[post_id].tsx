@@ -1,7 +1,6 @@
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 import { useQuery } from '@tanstack/react-query';
-import { GetStaticPropsContext } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
@@ -51,7 +50,7 @@ const Post = () => {
   const router = useRouter();
   const [commentsData, setCommentsData] = useState<commentType[]>([]);
   const { post_id } = router.query;
-  const { data, isLoading } = useQuery(
+  const { isLoading } = useQuery(
     ['comment', post_id],
     () => fetchPostCommentsByID(post_id as string),
     {
@@ -106,7 +105,6 @@ const Post = () => {
       commentRef.current.value = '';
     }
   };
-  // console.log({ commentsData });
 
   return (
     <MyLayout>
@@ -146,14 +144,3 @@ const Post = () => {
 };
 
 export default Post;
-
-export async function getServerSideProps(context: GetStaticPropsContext) {
-  const { params } = context;
-  const post_id = params?.post_id;
-  const comments = await fetchPostCommentsByID(post_id as string);
-  return {
-    props: {
-      comments,
-    },
-  };
-}
