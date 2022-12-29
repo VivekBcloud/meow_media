@@ -58,7 +58,6 @@ const Signin = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                console.log('before', e);
 
                 signInWithEmailMutation.mutate(e);
               }}

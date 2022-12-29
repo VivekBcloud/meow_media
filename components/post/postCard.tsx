@@ -63,7 +63,12 @@ const PostCard = ({
           <div className="">{post.content}</div>
           <div className="py-2">
             <div className="aspect-w-2 aspect-h-1 w-full overflow-hidden rounded-lg">
-              <Image src={post.img_url} alt="pic" layout="fill" />
+              <Image
+                src={post.img_url}
+                objectFit="cover"
+                alt="pic"
+                layout="fill"
+              />
             </div>
           </div>
           <div className="flex gap-2 items-center py-2">

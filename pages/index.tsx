@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 const LandingPage = () => {
   const user = useUser();
-  console.log('in the body');
   return (
     <div className="h-screen w-screen bg-gradient-to-t from-indigo-500 via-purple-500 to-pink-500 ">
       <div className="h-full w-full grid  place-items-center  mx-auto max-w-screen-xl p-2">

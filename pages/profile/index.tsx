@@ -42,14 +42,14 @@ const Profile = () => {
         avatar_url,
         updated_at: new Date().toISOString(),
       };
-      console.log({ updates });
+      // console.log({ updates });
 
       const { error } = await supabase.from('profiles').upsert(updates);
       if (error) throw error;
       alert('Profile updated!');
     } catch (error) {
       alert('Error updating the data!');
-      console.log(error);
+      // console.log(error);
     } finally {
       setLoading(false);
     }

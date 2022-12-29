@@ -27,6 +27,7 @@ const Comment = ({ comment }: { comment: commentType }) => {
         <div className="flex aspect-w-1 overflow-hidden w-10 h-10 rounded-full bg-impact">
           <Image
             layout="fill"
+            objectFit="cover"
             src={
               `https://cshhlpsxxvoyacgyjyqd.supabase.co/storage/v1/object/public/avatars/${comment.user_id}` ||
               '/profile_2.svg'
@@ -99,7 +100,6 @@ const Post = () => {
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     if (!commentRef.current?.value) return;
-    console.log(commentRef.current?.value);
 
     if (user_id && currPost?.id) {
       addComment(user_id, currPost?.id, commentRef.current?.value);

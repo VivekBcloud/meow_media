@@ -7,17 +7,13 @@ import { fetchLikes, fetchUser, fetchAllUser, usePosts } from '../../hooks';
 import PostSkeleton from '../../components/post/postSkeleton';
 import { useUser } from '@supabase/auth-helpers-react';
 import MyLayout from '../../components/layout/myLayout';
-import { useCallback, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 import Activites from '../../components/activities';
 
 const Home = () => {
   const user = useUser();
   const user_id = user?.id;
-  const router = useRouter();
-  useEffect(() => {
-    if (!user) router.push('/');
-  }, [router, user]);
+
   const { data: posts, isLoading: postIsLoading } = usePosts();
   const queryclient = useQueryClient();
 
@@ -31,7 +27,6 @@ const Home = () => {
   );
 
   const prefetchAllProfiles = useCallback(async () => {
-    console.log('called');
     await queryclient.prefetchQuery({
       queryKey: ['all_profile'],
       queryFn: fetchAllUser,

@@ -49,8 +49,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .eq('id', id)
       .select();
 
-    console.log({ data });
-
     if (error) {
       throw error;
     }
