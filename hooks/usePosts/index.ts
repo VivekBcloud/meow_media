@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import fetcher from '../../lib/fetcher';
-import { postType } from '../../types/all';
+import { commentType, postType } from '../../types/all';
 
 type mutatePostType = {
   content: string;
@@ -15,8 +15,8 @@ const fetchPosts = async (): Promise<postType[]> => {
   return res;
 };
 
-const fetchPostCommentsByID = async (id: string): Promise<postType[]> => {
-  const res = await fetcher<postType[]>(`/post/comments/${id}`);
+const fetchPostCommentsByID = async (id: string): Promise<commentType[]> => {
+  const res = await fetcher<commentType[]>(`/post/comments/${id}`);
   return res;
 };
 

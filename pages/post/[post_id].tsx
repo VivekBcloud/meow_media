@@ -46,10 +46,20 @@ const Comment = ({ comment }: { comment: commentType }) => {
   );
 };
 
-const Post = ({ comments }: { comments: commentType[] }) => {
+const Post = () => {
   const router = useRouter();
-  const [commentsData, setCommentsData] = useState(comments || []);
+  const [commentsData, setCommentsData] = useState<commentType[]>([]);
   const { post_id } = router.query;
+  const { data, isLoading } = useQuery(
+    ['comment', post_id],
+    () => fetchPostCommentsByID(post_id as string),
+    {
+      onSuccess: (data) => {
+        setCommentsData(data);
+      },
+    }
+  );
+
   const user = useUser();
   const user_id = user?.id;
   const commentRef = useRef<HTMLInputElement>(null);
@@ -123,7 +133,7 @@ const Post = ({ comments }: { comments: commentType[] }) => {
                   </div>
                 </label>
               </form>
-
+              {isLoading && <div className="text-gray-300">Loading...</div>}
               {commentsData.map((comment) => (
                 <Comment key={comment.id} comment={comment} />
               ))}
@@ -137,28 +147,7 @@ const Post = ({ comments }: { comments: commentType[] }) => {
 
 export default Post;
 
-export async function getStaticPaths() {
-  // When this is true (in preview environments) don't
-  // prerender any static pages
-  // (faster builds, but slower initial page load)
-  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
-    return {
-      paths: [],
-      fallback: 'blocking',
-    };
-  }
-
-  const posts = await fetchPosts();
-
-  const paths = posts.map((post) => ({
-    params: { post_id: post.id },
-  }));
-
-  // { fallback: false } means other routes should 404
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetStaticPropsContext) {
   const { params } = context;
   const post_id = params?.post_id;
   const comments = await fetchPostCommentsByID(post_id as string);
