@@ -35,7 +35,7 @@ const UserProfile = () => {
       <div className="grid grid-cols-4 gap-5 h-full mx-auto max-w-screen-xl p-2 text-orange-500 text-lg ">
         <div className="col-span-1 p-1 text-gray-300 font-light">
           <div className="px-1">friends</div>
-          <div className="w-full rounded-lg  bg-sc p-2">your friend</div>
+          <div className="w-full rounded-lg  bg-sc p-2">Coming soon</div>
         </div>
         <div className="col-span-1 bg-pc rounded-lg">
           <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg">

@@ -1,6 +1,6 @@
+import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
 import { useMapUserIdToUsername } from '../../hooks';
-import { relativeTimeFromDates } from '../../lib/helper';
 import { activityType } from '../../types/all';
 
 const ActivityCard = ({ activity }: { activity: activityType }) => {
@@ -21,7 +21,7 @@ const ActivityCard = ({ activity }: { activity: activityType }) => {
         <div className="text-sm text-white flex justify-between">
           {username}{' '}
           <div className="text-xs text-gray-300 font-extralight">
-            {relativeTimeFromDates(new Date(activity.created_at))}
+            {formatDistanceToNow(new Date(activity.created_at))} ago
           </div>
         </div>
         <div>Posted a new {activity.type}</div>

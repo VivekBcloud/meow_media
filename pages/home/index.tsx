@@ -79,9 +79,6 @@ const Home = () => {
               <div className="bg-pc rounded-lg">
                 <Activites />
               </div>
-              <div className="bg-pc rounded-lg p-2 px-3 font-light">
-                Friends online
-              </div>
             </div>
           </div>
         </div>

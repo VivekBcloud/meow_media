@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { classNameJoiner, relativeTimeFromDates } from '../../lib/helper';
 import { postType } from '../../types/all';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as SolidHeartIcon } from '@heroicons/react/24/solid';
@@ -10,6 +9,7 @@ import Modal from '../modal';
 import PostForm from './postForm';
 import { useUser } from '@supabase/auth-helpers-react';
 import { removePost } from '../../hooks';
+import { formatDistanceToNow } from 'date-fns';
 
 const UserPost = ({ post }: { post: postType }) => {
   // console.log(post);
@@ -33,7 +33,7 @@ const UserPost = ({ post }: { post: postType }) => {
           <div className=" font-semibold  items-center gap-1 text">
             <div>{post.username}</div>
             <div className="text-xs font-light">
-              {relativeTimeFromDates(new Date(post.created_at))}
+              {formatDistanceToNow(new Date(post.created_at))} ago
             </div>
           </div>
         </div>
@@ -49,13 +49,13 @@ const UserPost = ({ post }: { post: postType }) => {
               />
             </div>
           </div>
-          <div className="flex gap-1 items-center py-2">
+          <div className="flex gap-1 items-center py-2 ">
             <PencilSquareIcon
-              className="w-6 h-6 "
+              className="w-6 h-6 cursor-pointer "
               onClick={() => setOpen(true)}
             />
             <TrashIcon
-              className="w-6 h-6 "
+              className="w-6 h-6 cursor-pointer "
               onClick={() => {
                 postMutation.mutate({
                   id: post.id,

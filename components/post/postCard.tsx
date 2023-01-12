@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { classNameJoiner, relativeTimeFromDates } from '../../lib/helper';
+import { classNameJoiner } from '../../lib/helper';
 import { postType } from '../../types/all';
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as SolidFilledHeartIcon } from '@heroicons/react/24/solid';
@@ -15,6 +15,7 @@ import {
   useRemoveLikeMutation,
 } from '../../hooks';
 import Link from 'next/link';
+import { formatDistanceToNow } from 'date-fns';
 
 const PostCard = ({
   post,
@@ -55,7 +56,7 @@ const PostCard = ({
           <div className=" font-semibold  items-center gap-1 text">
             <div>{post.username}</div>
             <div className="text-xs font-light">
-              {relativeTimeFromDates(new Date(post.created_at))}
+              {formatDistanceToNow(new Date(post.created_at))} ago
             </div>
           </div>
         </div>
@@ -74,14 +75,14 @@ const PostCard = ({
           <div className="flex gap-2 items-center py-2">
             <SolidFilledHeartIcon
               className={classNameJoiner(
-                'w-6 h-6',
+                'w-6 h-6 cursor-pointer',
                 isLiked ? 'text-red-500' : ''
               )}
               onClick={handleLike}
             />
 
             <Link href={`/post/${post.id}`}>
-              <ChatBubbleOvalLeftIcon className="w-6 h-6 " />
+              <ChatBubbleOvalLeftIcon className="w-6 h-6 cursor-pointer" />
             </Link>
           </div>
           <div className="text-sm">Liked by {likedBy}</div>

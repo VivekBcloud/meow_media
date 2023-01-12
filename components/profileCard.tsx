@@ -19,8 +19,8 @@ const ProfileCard: FC<Profile> = ({ full_name, username, avatar_url }) => {
         </div>
         <div className=" grid grid-cols-7 mt-[40%] items-end ">
           <div className="flex flex-col items-end p-2 col-span-2">
-            <div className="text-sm">{'0'}</div>
-            <div className="text-xs">Follower</div>
+            {/* <div className="text-sm">{'0'}</div>
+            <div className="text-xs">Follower</div> */}
           </div>
           <div className=" relative bg-pc col-span-3 border-[6px] border-sc rounded-lg ">
             <Image
@@ -34,8 +34,8 @@ const ProfileCard: FC<Profile> = ({ full_name, username, avatar_url }) => {
             />
           </div>
           <div className="flex flex-col items-start p-2 col-span-2">
-            <div className="text-sm">{'0'}</div>
-            <div className="text-xs">Following</div>
+            {/* <div className="text-sm">{'0'}</div>
+            <div className="text-xs">Following</div> */}
           </div>
         </div>
         <div className="w-full  p-2 rounded-lg overflow-clip flex flex-col items-center">

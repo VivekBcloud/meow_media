@@ -37,15 +37,15 @@ const Navbar = () => {
       <nav className="max-w-screen-xl w-full grid grid-cols-4 gap-5 p-2">
         <div className="left col-span-1 flex gap-5 items-center">
           <Link href="/home" passHref>
-            <a className=" bg-white rounded-full p-2 font-bold text-xs cursor-pointer">
-              LZ
+            <a className=" bg-white rounded-full p-2 font-bold text-xs cursor-pointer px-3">
+              M-M
             </a>
           </Link>
-          <input
+          {/* <input
             type="text"
             className="rounded-xl bg-sc p-1 px-2 w-full"
             placeholder="#"
-          />
+          /> */}
         </div>
         <div className="center col-span-2  flex justify-center items-center gap-10">
           <div>
@@ -58,7 +58,7 @@ const Navbar = () => {
               />
             </Link>
           </div>
-          <div>
+          {/* <div>
             <Link href="/chat">
               <ChatBubbleOvalLeftEllipsisIcon
                 className={classNameJoiner(
@@ -77,7 +77,7 @@ const Navbar = () => {
                 )}
               />
             </Link>
-          </div>
+          </div> */}
           {/* <Link href="/posts">
                             <FolderOpenIcon
                                 className={classNameJoiner(

@@ -15,8 +15,8 @@ import {
   fetchUser,
   useMapUserIdToUsername,
 } from '../../hooks';
-import { relativeTimeFromDates } from '../../lib/helper';
 import { commentType } from '../../types/all';
+import { formatDistanceToNow } from 'date-fns';
 
 const Comment = ({ comment }: { comment: commentType }) => {
   const username = useMapUserIdToUsername(comment.user_id);
@@ -37,7 +37,7 @@ const Comment = ({ comment }: { comment: commentType }) => {
         <div className="text-sm flex flex-col gap-1">
           <div className="">{username || 'username'}</div>
           <div className="text-xs">
-            {relativeTimeFromDates(new Date(comment.created_at))}
+            {formatDistanceToNow(new Date(comment.created_at))} ago
           </div>
         </div>
       </div>
